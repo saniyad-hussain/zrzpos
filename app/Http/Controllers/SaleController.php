@@ -82,6 +82,7 @@ use Salla\ZATCA\Tags\TaxNumber;
 use Carbon\Carbon;
 use App\Models\Printer;
 use App\Services\PrinterService;
+use Illuminate\Support\Str;
 
 use App\Helpers\DateHelper;
 
@@ -840,6 +841,33 @@ class SaleController extends Controller
             $log_data['item_description'] = '';
 
             foreach ($product_id as $i => $id) {
+                // Check if this is a custom product
+                if(isset($data['is_custom'][$i]) && $data['is_custom'][$i]) {
+                    // Handle custom product - skip stock operations
+                    $product_sale['sale_id'] = $lims_sale_data->id;
+                    $product_sale['product_id'] = null;
+                    $product_sale['variant_id'] = null;
+                    $product_sale['product_batch_id'] = null;
+                    $product_sale['qty'] = $qty[$i];
+                    $product_sale['sale_unit_id'] = 0;
+                    $product_sale['net_unit_price'] = $net_unit_price[$i];
+                    $product_sale['discount'] = $discount[$i];
+                    $product_sale['tax_rate'] = $tax_rate[$i];
+                    $product_sale['tax'] = $tax[$i];
+                    $product_sale['total'] = $total[$i];
+                    $product_sale['is_custom'] = true;
+                    $product_sale['custom_name'] = $data['custom_name'][$i] ?? null;
+                    $product_sale['custom_code'] = $data['custom_code'][$i] ?? null;
+                    $product_sale['custom_unit'] = $data['custom_unit'][$i] ?? null;
+                    $product_sale['custom_tax_id'] = $data['custom_tax_id'][$i] ?? null;
+                    $product_sale['custom_tax_rate'] = $data['custom_tax_rate'][$i] ?? null;
+                    $product_sale['custom_tax_name'] = $data['custom_tax_name'][$i] ?? null;
+                    $product_sale['custom_tax_method'] = $data['custom_tax_method'][$i] ?? null;
+                    
+                    Product_Sale::create($product_sale);
+                    continue;
+                }
+                
                 $lims_product_data = Product::where('id', $id)->first();
                 // DB::rollback();
                 $product_sale['variant_id'] = null;
@@ -2135,6 +2163,128 @@ class SaleController extends Controller
          return $lims_customer_group_data->percentage;
     }
 
+    public function storeCustomPosProduct(Request $request)
+    {
+        $request->validate([
+            'name'        => 'required|string|max:191',
+            'unit'        => 'required|string|max:50',
+            'price'       => 'required|numeric|min:0',
+            'qty'         => 'required|numeric|min:0.0001',
+            'tax_rate'    => 'nullable|numeric|min:0',
+            'tax_id'      => 'nullable|integer',
+            'tax_method'  => 'nullable|in:1,2',
+        ]);
+
+        $unitName = $request->input('unit');
+        $taxId = $request->input('tax_id');
+        $taxRate = $request->input('tax_rate', 0);
+        $taxName = 'No Tax';
+        $taxMethod = $request->input('tax_method', 1);
+
+        if ($taxId && $taxId != '0') {
+            $tax = Tax::find($taxId);
+            if ($tax) {
+                $taxRate = $tax->rate;
+                $taxName = $tax->name;
+                $taxId = $tax->id;
+            } else {
+                $taxId = null;
+            }
+        } else {
+            $taxId = null;
+        }
+
+        $unitData = $this->resolveCustomUnit($unitName);
+
+        $customCode = 'CUS-' . strtoupper(Str::random(8));
+
+        $productArray = [
+            $request->input('name'),
+            $customCode,
+            $request->input('price'),
+            $taxRate,
+            $taxName,
+            $taxMethod,
+            $unitData['names'],
+            $unitData['operators'],
+            $unitData['values'],
+            null,
+            null,
+            0,
+            0,
+            0,
+            0,
+            $request->input('qty'),
+            null,
+            0,
+            null,
+            999999999,
+            'custom',
+            null,
+            '',
+            false,
+            $request->input('price'),
+            [
+                'is_custom'        => true,
+                'custom_name'      => $request->input('name'),
+                'custom_code'      => $customCode,
+                'custom_unit'      => $unitName,
+                'custom_tax_id'    => $taxId,
+                'custom_tax_rate'  => $taxRate,
+                'custom_tax_name'  => $taxName,
+                'custom_tax_method'=> $taxMethod,
+            ],
+        ];
+
+        return response()->json($productArray, 201);
+    }
+
+    public function getDefaultCustomProductMeta()
+    {
+        $unit = Unit::first();
+        $tax = Tax::where('is_active', true)->first();
+
+        return response()->json([
+            'unit' => $unit ? $unit->unit_name : 'pc',
+            'tax'  => $tax ? ['id' => $tax->id, 'name' => $tax->name, 'rate' => $tax->rate, 'tax_method' => 1] : null,
+        ]);
+    }
+
+    protected function resolveCustomUnit(string $unitName): array
+    {
+        $unit = Unit::where('unit_name', $unitName)->first();
+
+        if (!$unit) {
+            $unit = Unit::first();
+        }
+
+        if (!$unit) {
+            return [
+                'names'     => 'pc,',
+                'operators' => '*,',
+                'values'    => '1,',
+            ];
+        }
+
+        $names = [$unit->unit_name];
+        $operators = [$unit->operator ?? '*'];
+        $values = [$unit->operation_value ?? 1];
+
+        $subUnits = Unit::where('base_unit', $unit->id)->get();
+
+        foreach ($subUnits as $subUnit) {
+            $names[] = $subUnit->unit_name;
+            $operators[] = $subUnit->operator ?? '*';
+            $values[] = $subUnit->operation_value ?? 1;
+        }
+
+        return [
+            'names'     => implode(',', $names) . ',',
+            'operators' => implode(',', $operators) . ',',
+            'values'    => implode(',', $values) . ',',
+        ];
+    }
+
     public function limsProductSearch(Request $request)
     {
         $todayDate = date('Y-m-d');
@@ -2937,6 +3087,32 @@ class SaleController extends Controller
         $product_variant_id = [];
         $log_data['item_description'] = '';
         foreach ($product_id as $key => $pro_id) {
+            // Skip stock operations for custom products
+            if(isset($data['is_custom'][$key]) && $data['is_custom'][$key]) {
+                $product_sale['sale_id'] = $id;
+                $product_sale['product_id'] = null;
+                $product_sale['variant_id'] = null;
+                $product_sale['product_batch_id'] = null;
+                $product_sale['qty'] = $qty[$key];
+                $product_sale['sale_unit_id'] = 0;
+                $product_sale['net_unit_price'] = $net_unit_price[$key];
+                $product_sale['discount'] = $discount[$key];
+                $product_sale['tax_rate'] = $tax_rate[$key];
+                $product_sale['tax'] = $tax[$key];
+                $product_sale['total'] = $total[$key];
+                $product_sale['is_custom'] = true;
+                $product_sale['custom_name'] = $data['custom_name'][$key] ?? null;
+                $product_sale['custom_code'] = $data['custom_code'][$key] ?? null;
+                $product_sale['custom_unit'] = $data['custom_unit'][$key] ?? null;
+                $product_sale['custom_tax_id'] = $data['custom_tax_id'][$key] ?? null;
+                $product_sale['custom_tax_rate'] = $data['custom_tax_rate'][$key] ?? null;
+                $product_sale['custom_tax_name'] = $data['custom_tax_name'][$key] ?? null;
+                $product_sale['custom_tax_method'] = $data['custom_tax_method'][$key] ?? null;
+                
+                Product_Sale::create($product_sale);
+                continue;
+            }
+            
             $lims_product_data = Product::find($pro_id);
             $product_sale['variant_id'] = null;
             if($lims_product_data->type == 'combo' && $data['sale_status'] == 1) {
@@ -3578,6 +3754,12 @@ class SaleController extends Controller
                     $temp = array_unique(explode(',', $sale_data->imei_number));
                     $sale_data->imei_number = implode(',', $temp);
                 }
+                
+                // Handle custom products - skip warranty/guarantee lookup
+                if ($sale_data->is_custom) {
+                    continue;
+                }
+                
                 // Warranty/Guarantee
                 $product = Product::select(
                     'warranty',

@@ -426,6 +426,8 @@
                         <button class="btn btn-block btn-info mt-0 ml-1 mr-1" id="brand-filter">{{__('db.Brand')}}</button>
 
                         <button class="btn btn-block btn-danger mt-0 ml-1 mr-1" id="featured-filter">{{__('db.Featured')}}</button>
+
+                        <button class="btn btn-block btn-secondary mt-0 ml-1 mr-1" id="add-custom-product-btn">{{ __('Add Custom Product') }}</button>
                     </div>
                 </div>
                 <div class="row">
@@ -1195,6 +1197,58 @@
                     </div>
                 </div>
                 {{-- invoice modal end --}}
+
+                <!-- add custom product modal -->
+                <div id="addCustomProductModal" tabindex="-1" role="dialog" aria-labelledby="addCustomProductLabel" aria-hidden="true" class="modal fade text-left">
+                    <div role="document" class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 id="addCustomProductLabel" class="modal-title">{{__('Add Custom Product')}}</h5>
+                                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg></span></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="custom-product-form">
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label>{{__('db.Product Name')}} *</label>
+                                            <div class="btn-group btn-group-sm mb-2" role="group" style="width: 100%; display: flex; flex-wrap: wrap;">
+                                                <button type="button" class="btn btn-outline-primary quick-name-btn" data-name="Grocery" style="flex: 1; margin: 2px;">Grocery</button>
+                                                <button type="button" class="btn btn-outline-primary quick-name-btn" data-name="Fish" style="flex: 1; margin: 2px;">Fish</button>
+                                                <button type="button" class="btn btn-outline-primary quick-name-btn" data-name="Meat" style="flex: 1; margin: 2px;">Meat</button>
+                                                <button type="button" class="btn btn-outline-primary quick-name-btn" data-name="Vegetables" style="flex: 1; margin: 2px;">Vegetables</button>
+                                                <button type="button" class="btn btn-outline-primary quick-name-btn" data-name="Misc" style="flex: 1; margin: 2px;">Misc</button>
+                                            </div>
+                                            <input type="text" name="custom_product_name" id="custom_product_name" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>{{__('db.Quantity')}} *</label>
+                                            <input type="number" name="custom_product_qty" id="custom_product_qty" class="form-control" step="0.01" min="0.01" value="1" required>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>{{__('db.Unit')}} *</label>
+                                            <input type="text" name="custom_product_unit" id="custom_product_unit" class="form-control" value="pc" required>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>{{__('db.Price')}} *</label>
+                                            <input type="number" name="custom_product_price" id="custom_product_price" class="form-control" step="0.01" min="0" required>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>{{__('db.Tax')}}</label>
+                                            <select name="custom_product_tax" id="custom_product_tax" class="form-control">
+                                                <option value="0" data-rate="0" data-method="1">No Tax</option>
+                                                @foreach($lims_tax_list as $tax)
+                                                <option value="{{$tax->id}}" data-rate="{{$tax->rate}}" data-method="1">{{$tax->name}} ({{$tax->rate}}%)</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">{{__('db.Add to Cart')}}</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- add custom product modal end -->
 
                 <!-- product edit modal -->
                 <div id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
@@ -2555,6 +2609,27 @@
         if(data[23]){
             cols += '<input type="hidden" class="topping_product" name="topping_product[]" value="" />';
             cols += '<input type="hidden" class="topping-price" name="topping-price" value="" />';
+        }
+        
+        // Add custom product metadata fields if present (data[25])
+        if(data[25] && data[25].is_custom) {
+            cols += '<input type="hidden" name="is_custom[]" value="1" />';
+            cols += '<input type="hidden" name="custom_name[]" value="' + (data[25].custom_name || '') + '" />';
+            cols += '<input type="hidden" name="custom_code[]" value="' + (data[25].custom_code || '') + '" />';
+            cols += '<input type="hidden" name="custom_unit[]" value="' + (data[25].custom_unit || '') + '" />';
+            cols += '<input type="hidden" name="custom_tax_id[]" value="' + (data[25].custom_tax_id || '') + '" />';
+            cols += '<input type="hidden" name="custom_tax_rate[]" value="' + (data[25].custom_tax_rate || '') + '" />';
+            cols += '<input type="hidden" name="custom_tax_name[]" value="' + (data[25].custom_tax_name || '') + '" />';
+            cols += '<input type="hidden" name="custom_tax_method[]" value="' + (data[25].custom_tax_method || '') + '" />';
+        } else {
+            cols += '<input type="hidden" name="is_custom[]" value="0" />';
+            cols += '<input type="hidden" name="custom_name[]" value="" />';
+            cols += '<input type="hidden" name="custom_code[]" value="" />';
+            cols += '<input type="hidden" name="custom_unit[]" value="" />';
+            cols += '<input type="hidden" name="custom_tax_id[]" value="" />';
+            cols += '<input type="hidden" name="custom_tax_rate[]" value="" />';
+            cols += '<input type="hidden" name="custom_tax_name[]" value="" />';
+            cols += '<input type="hidden" name="custom_tax_method[]" value="" />';
         }
 
         newRow.append(cols);
@@ -4952,6 +5027,55 @@
     });
 
     updateDisplay();
+
+    // Custom Product Modal Handler
+    $('#add-custom-product-btn').on('click', function(e) {
+        e.preventDefault();
+        $('#custom-product-form')[0].reset();
+        $('#custom_product_unit').val('pc');
+        $('#custom_product_qty').val(1);
+        $('.quick-name-btn').removeClass('active');
+        $('#addCustomProductModal').modal('show');
+    });
+
+    // Quick name button handler
+    $(document).on('click', '.quick-name-btn', function() {
+        $('.quick-name-btn').removeClass('active');
+        $(this).addClass('active');
+        $('#custom_product_name').val($(this).data('name'));
+        $('#custom_product_price').focus();
+    });
+
+    $('#custom-product-form').on('submit', function(e) {
+        e.preventDefault();
+        
+        var formData = {
+            name: $('#custom_product_name').val(),
+            qty: parseFloat($('#custom_product_qty').val()),
+            unit: $('#custom_product_unit').val(),
+            price: parseFloat($('#custom_product_price').val()),
+            tax_id: $('#custom_product_tax').val() || null,
+            tax_rate: $('#custom_product_tax option:selected').data('rate') || 0,
+            tax_method: $('#custom_product_tax option:selected').data('method') || 1,
+        };
+
+        $.ajax({
+            url: '{{ route("sale.custom-product") }}',
+            type: 'POST',
+            data: formData,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                addNewProduct(data);
+                $('#addCustomProductModal').modal('hide');
+                $('#custom-product-form')[0].reset();
+            },
+            error: function(xhr) {
+                alert('Error adding custom product: ' + (xhr.responseJSON?.message || 'Unknown error'));
+            }
+        });
+    });
 
     $('#expense-amount').on('input', function() {
         var value = $(this).val();

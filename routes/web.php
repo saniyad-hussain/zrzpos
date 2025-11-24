@@ -303,6 +303,8 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
 
     Route::controller(SaleController::class)->group(function () {
         Route::post('sales/sale-data', 'saleData');
+        Route::post('sales/custom-product', 'storeCustomPosProduct')->name('sale.custom-product');
+        Route::get('sales/custom-product/meta', 'getDefaultCustomProductMeta')->name('sale.custom-product-meta');
         Route::post('sales/sendmail', 'sendMail')->name('sale.sendmail');
         Route::get('sales/sale_by_csv', 'saleByCsv');
         Route::get('sales/deleted_data', 'showDeletedSales')

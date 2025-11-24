@@ -186,27 +186,33 @@
                     @if (isset($show->show_description) && $show->show_description == 1)
                         @foreach ($lims_product_sale_data as $key => $product_sale_data)
                             <?php
-                            $lims_product_data = \App\Models\Product::find($product_sale_data->product_id);
-                            if ($product_sale_data->variant_id) {
-                                $variant_data = \App\Models\Variant::find($product_sale_data->variant_id);
-                                $product_name = $lims_product_data->name . ' [' . $variant_data->name . ']';
-                            } elseif ($product_sale_data->product_batch_id) {
-                                $product_batch_data = \App\Models\ProductBatch::select('batch_no')->find($product_sale_data->product_batch_id);
-                                $product_name = $lims_product_data->name . ' [' . __('db.Batch No') . ':' . $product_batch_data->batch_no . ']';
+                            // Handle custom products
+                            if ($product_sale_data->is_custom) {
+                                $product_name = $product_sale_data->custom_name . ' [' . $product_sale_data->custom_code . ']';
+                                $lims_product_data = null;
                             } else {
-                                $product_name = $lims_product_data->name;
+                                $lims_product_data = \App\Models\Product::find($product_sale_data->product_id);
+                                if ($product_sale_data->variant_id) {
+                                    $variant_data = \App\Models\Variant::find($product_sale_data->variant_id);
+                                    $product_name = $lims_product_data->name . ' [' . $variant_data->name . ']';
+                                } elseif ($product_sale_data->product_batch_id) {
+                                    $product_batch_data = \App\Models\ProductBatch::select('batch_no')->find($product_sale_data->product_batch_id);
+                                    $product_name = $lims_product_data->name . ' [' . __('db.Batch No') . ':' . $product_batch_data->batch_no . ']';
+                                } else {
+                                    $product_name = $lims_product_data->name;
+                                }
                             }
 
                             if ($product_sale_data->imei_number && !str_contains($product_sale_data->imei_number, 'null')) {
                                 $product_name .= '<br>' . trans('IMEI or Serial Numbers') . ': <span style="text-transform: none;">' . $product_sale_data->imei_number  . '</span>';
                             }
-                            // Warranty
-                            if (isset($product_sale_data->warranty_duration)) {
+                            // Warranty - only for non-custom products
+                            if (!$product_sale_data->is_custom && isset($product_sale_data->warranty_duration)) {
                                 $product_name .= '<br>' . "<span style='font-weight: bold;'>Warranty</span>: " . $product_sale_data->warranty_duration;
                                 $product_name .= '<br>' . "<span style='font-weight: bold;'>Will Expire</span>: " . $product_sale_data->warranty_end;
                             }
-                            // Guarantee
-                            if (isset($product_sale_data->guarantee_duration)) {
+                            // Guarantee - only for non-custom products
+                            if (!$product_sale_data->is_custom && isset($product_sale_data->guarantee_duration)) {
                                 $product_name .= '<br>' . "<span style='font-weight: bold;'>Guarantee</span>: " . $product_sale_data->guarantee_duration;
                                 $product_name .= '<br>' . "<span style='font-weight: bold;'>Will Expire</span>: " . $product_sale_data->guarantee_end;
                             }
@@ -238,9 +244,10 @@
                                         <br><small>({{ implode(', ', $topping_names) }})</small>
                                     @endif
 
-                                    @foreach ($product_custom_fields as $index => $fieldName)
-                                        <?php $field_name = str_replace(' ', '_', strtolower($fieldName)); ?>
-                                        @if ($lims_product_data->$field_name)
+                                    @if ($lims_product_data)
+                                        @foreach ($product_custom_fields as $index => $fieldName)
+                                            <?php $field_name = str_replace(' ', '_', strtolower($fieldName)); ?>
+                                            @if (isset($lims_product_data->$field_name) && $lims_product_data->$field_name)
                                             @if (!$index)
                                                 <br>{{ $fieldName . ': ' . $lims_product_data->$field_name }}
                                             @else
@@ -248,6 +255,7 @@
                                             @endif
                                         @endif
                                     @endforeach
+                                    @endif
                                     <br>{{ $product_sale_data->qty }} x
                                     {{ number_format((float) ($product_sale_data->total / $product_sale_data->qty), $general_setting->decimal, '.', ',') }}
 
@@ -264,6 +272,45 @@
                                 </td>
                                 <td style="vertical-align:bottom;width:40%">
                                     {{ number_format($subtotal, $general_setting->decimal, '.', ',') }}</td>
+                            </tr>
+                        @endforeach
+                    @else
+                        @foreach ($lims_product_sale_data as $key => $product_sale_data)
+                            <?php
+                            // Handle custom products
+                            if ($product_sale_data->is_custom) {
+                                $product_name = $product_sale_data->custom_name . ' [' . $product_sale_data->custom_code . ']';
+                            } else {
+                                $lims_product_data = \App\Models\Product::find($product_sale_data->product_id);
+                                if ($product_sale_data->variant_id) {
+                                    $variant_data = \App\Models\Variant::find($product_sale_data->variant_id);
+                                    $product_name = $lims_product_data->name . ' [' . $variant_data->name . ']';
+                                } elseif ($product_sale_data->product_batch_id) {
+                                    $product_batch_data = \App\Models\ProductBatch::select('batch_no')->find($product_sale_data->product_batch_id);
+                                    $product_name = $lims_product_data->name . ' [' . __('db.Batch No') . ':' . $product_batch_data->batch_no . ']';
+                                } else {
+                                    $product_name = $lims_product_data->name;
+                                }
+                            }
+                            
+                            $topping_price_sum = 0;
+                            if ($product_sale_data->topping_id) {
+                                $decoded_topping_id = is_string($product_sale_data->topping_id) ? json_decode($product_sale_data->topping_id, true) : $product_sale_data->topping_id;
+                                if (is_array($decoded_topping_id)) {
+                                    foreach ($decoded_topping_id as $topping) {
+                                        $topping_price_sum += $topping['price'];
+                                    }
+                                }
+                            }
+                            $subtotal = $product_sale_data->total + $topping_price_sum;
+                            ?>
+                            <tr>
+                                <td colspan="2" style="width:60%">
+                                    {!! $product_name !!}
+                                </td>
+                                <td style="vertical-align:bottom;width:40%">
+                                    {{ number_format($subtotal, $general_setting->decimal, '.', ',') }}
+                                </td>
                             </tr>
                         @endforeach
                     @endif

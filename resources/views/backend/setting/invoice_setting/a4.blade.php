@@ -197,19 +197,26 @@
 
         @foreach ($lims_product_sale_data as $key => $product_sale_data)
             <?php
-            $lims_product_data = \App\Models\Product::find($product_sale_data->product_id);
-            if ($product_sale_data->sale_unit_id) {
-                $unit = \App\Models\Unit::select('unit_code')->find($product_sale_data->sale_unit_id);
-                $unit_code = $unit->unit_code;
-            } else {
-                $unit_code = '';
-            }
-
-            if ($product_sale_data->variant_id) {
-                $variant = \App\Models\Variant::select('name')->find($product_sale_data->variant_id);
-                $variant_name = $variant->name;
-            } else {
+            // Handle custom products
+            if ($product_sale_data->is_custom) {
+                $lims_product_data = null;
+                $unit_code = $product_sale_data->custom_unit ?? '';
                 $variant_name = '';
+            } else {
+                $lims_product_data = \App\Models\Product::find($product_sale_data->product_id);
+                if ($product_sale_data->sale_unit_id) {
+                    $unit = \App\Models\Unit::select('unit_code')->find($product_sale_data->sale_unit_id);
+                    $unit_code = $unit->unit_code;
+                } else {
+                    $unit_code = '';
+                }
+
+                if ($product_sale_data->variant_id) {
+                    $variant = \App\Models\Variant::select('name')->find($product_sale_data->variant_id);
+                    $variant_name = $variant->name;
+                } else {
+                    $variant_name = '';
+                }
             }
             $totalPrice += $product_sale_data->net_unit_price * $product_sale_data->qty;
 
@@ -240,26 +247,32 @@
                     {{ $key + 1 }}</td>
                 <td style="border:1px solid #222;padding:1px 3px;font-size: 15px;line-height: 1.2;">
 
-                    {!! $lims_product_data->name !!}
+                    @if ($product_sale_data->is_custom)
+                        {!! $product_sale_data->custom_name !!} <small>[{{ $product_sale_data->custom_code }}]</small>
+                    @else
+                        {!! $lims_product_data->name !!}
+                    @endif
 
                     @if (!empty($topping_names))
                         <br><small>({{ implode(', ', $topping_names) }})</small>
                     @endif
 
-                    @foreach ($product_custom_fields as $index => $fieldName)
-                        <?php $field_name = str_replace(' ', '_', strtolower($fieldName)); ?>
-                        @if ($lims_product_data->$field_name)
-                            @if (!$index)
-                                <br>
-                                <span style="font-weight: bold;">{{ $fieldName }}</span>
-                                {{ ': ' . $lims_product_data->$field_name }}
-                            @else
-                                <br>
-                                <span style="font-weight: bold;">{{ $fieldName }}</span>
-                                {{ ': ' . $lims_product_data->$field_name }}
+                    @if (!$product_sale_data->is_custom)
+                        @foreach ($product_custom_fields as $index => $fieldName)
+                            <?php $field_name = str_replace(' ', '_', strtolower($fieldName)); ?>
+                            @if ($lims_product_data->$field_name)
+                                @if (!$index)
+                                    <br>
+                                    <span style="font-weight: bold;">{{ $fieldName }}</span>
+                                    {{ ': ' . $lims_product_data->$field_name }}
+                                @else
+                                    <br>
+                                    <span style="font-weight: bold;">{{ $fieldName }}</span>
+                                    {{ ': ' . $lims_product_data->$field_name }}
+                                @endif
                             @endif
-                        @endif
-                    @endforeach
+                        @endforeach
+                    @endif
                     @if ($product_sale_data->imei_number && !str_contains($product_sale_data->imei_number, 'null'))
                         <br><small>IMEI or Serial: {{ $product_sale_data->imei_number }}</small>
                     @endif
