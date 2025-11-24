@@ -1242,7 +1242,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">{{__('db.Add to Cart')}}</button>
+                                    <button type="submit" class="btn btn-primary">{{__('Add')}}</button>
                                 </form>
                             </div>
                         </div>
