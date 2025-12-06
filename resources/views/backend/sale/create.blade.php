@@ -902,26 +902,82 @@
     const scanner = document.getElementById("reader");
     const html5Qrcode = new Html5Qrcode('reader');
 
+    // function barcode() {
+    //     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+    //         if (decodedText) {
+    //             document.getElementById('lims_productcodeSearch').value = decodedText;
+    //             html5Qrcode.stop();
+    //             closeScannerBtn.style.display = "none";
+    //         }
+    //     };
+
+    //     const config = {
+    //         fps: 30,
+    //         qrbox: { width: 300, height: 100 },
+    //         // ðŸ‘‡ Add this line to support Code128
+    //         // formatsToSupport: [ Html5QrcodeSupportedFormats.CODE_128 ]
+    //     };
+
+    //     html5Qrcode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+    //     closeScannerBtn.style.display = "inline-block";
+    // }
     function barcode() {
+        // Check if html5Qrcode is initialized
+        if (!html5Qrcode) {
+            // Try to initialize one more time
+            if (initializeBarcodeScanner()) {
+                // If initialization succeeded, call the function again
+                setTimeout(barcode, 100);
+                return;
+            }
+            alert('Barcode scanner not initialized. Please refresh the page and ensure camera permissions are granted.');
+            return;
+        }
+
         const qrCodeSuccessCallback = (decodedText, decodedResult) => {
             if (decodedText) {
-                document.getElementById('lims_productcodeSearch').value = decodedText;
-                html5Qrcode.stop();
-                closeScannerBtn.style.display = "none";
+                // Set the scanned code value
+                document.getElementById('code').value = decodedText;
+                
+                // Stop the camera immediately
+                html5Qrcode.stop().then(() => {
+                    // Clear the scanner view
+                    html5Qrcode.clear();
+                    
+                    // Hide the close button
+                    if (closeScannerBtn) {
+                        closeScannerBtn.style.display = "none";
+                    }
+                    
+                    console.log('Barcode scanned and camera stopped successfully');
+                }).catch((err) => {
+                    console.error("Error stopping scanner:", err);
+                    // Force clear even if stop fails
+                    try {
+                        html5Qrcode.clear();
+                    } catch (clearErr) {
+                        console.error("Error clearing scanner:", clearErr);
+                    }
+                });
             }
         };
 
         const config = {
             fps: 30,
             qrbox: { width: 300, height: 100 },
-            // ðŸ‘‡ Add this line to support Code128
-            // formatsToSupport: [ Html5QrcodeSupportedFormats.CODE_128 ]
         };
 
-        html5Qrcode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-        closeScannerBtn.style.display = "inline-block";
+        html5Qrcode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
+            .then(() => {
+                if (closeScannerBtn) {
+                    closeScannerBtn.style.display = "inline-block";
+                }
+            })
+            .catch((err) => {
+                console.error("Error starting scanner:", err);
+                alert("Failed to start camera. Please check camera permissions.");
+            });
     }
-
     closeScannerBtn.addEventListener("click", function () {
         closeScannerBtn.style.display = "none";
         html5Qrcode.stop();
