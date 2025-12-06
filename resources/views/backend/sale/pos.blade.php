@@ -3862,18 +3862,18 @@
         $("#received-paying").text(labelText);
     }
 
-    function checkCreditLimit(){
-        var selectedOption = $('#customer_id option:selected');
-        var credit_limit = selectedOption.data('credit-limit');
-        var due = parseFloat($('.due').text());
-        if (credit_limit !== null && credit_limit !== '' && due > credit_limit) {
-            alert('{{__("db.Credit limit exceeded! Customer credit limit:")}} ' + credit_limit);
-            $('#submit-btn').prop('disabled', true);
-        }else{
-            $('#submit-btn').prop('disabled', false);
-        }
+    // function checkCreditLimit(){
+    //     var selectedOption = $('#customer_id option:selected');
+    //     var credit_limit = selectedOption.data('credit-limit');
+    //     var due = parseFloat($('.due').text());
+    //     if (credit_limit !== null && credit_limit !== '' && due > credit_limit) {
+    //         alert('{{__("db.Credit limit exceeded! Customer credit limit:")}} ' + credit_limit);
+    //         $('#submit-btn').prop('disabled', true);
+    //     }else{
+    //         $('#submit-btn').prop('disabled', false);
+    //     }
 
-    }
+    // }
 
     function appendRemoveElement(className, payOption = false){
         $('#print_invoice').prop('checked', true);

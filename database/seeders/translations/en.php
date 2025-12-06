@@ -9154,8 +9154,8 @@ return array(
     1525 =>
     array(
         'locale' => 'en',
-        'key' => 'Credit limit exceeded! Customer credit limit:',
-        'value' => 'Credit limit exceeded! Customer credit limit:',
+        'key' => 'Credit limit exceeded! Customer credit limit 2:',
+        'value' => 'Credit limit exceeded! Customer credit limit 2:',
     ),
     1526 =>
     array(
