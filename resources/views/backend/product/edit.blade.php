@@ -291,7 +291,7 @@
                                 </div>
                                 <div class="form-group">
                                         <label>{{__('db.Stock Quantity')}} </label>
-                                        <input type="number" name="qty" value="{{ $lims_product_data->qty }}" class="form-control" step="any" min="0">
+                                        <input type="number" name="qty" value="{{ isset($warehouse_stock) ? $warehouse_stock : $lims_product_data->qty }}" class="form-control" step="any" min="0">
                                         <span class="validation-msg"></span>
                                     </div>
                                 <div id="alert-qty" class="col-md-4">

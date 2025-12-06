@@ -572,6 +572,33 @@ class ProductController extends Controller
             $lims_product_data->qty += $initial_stock;
             $lims_product_data->save();
         }
+        
+        // Create/update warehouse stock when qty is set directly (not using initial stock feature)
+        // Only for non-variant, non-batch products
+        if (isset($data['qty']) && $data['qty'] > 0 && !isset($data['is_initial_stock']) && !isset($data['is_variant']) && !isset($data['is_batch'])) {
+            $warehouse = Warehouse::where('is_active', true)->first();
+            if ($warehouse) {
+                $product_warehouse = Product_Warehouse::FindProductWithoutVariant($lims_product_data->id, $warehouse->id)->first();
+                
+                if ($product_warehouse) {
+                    // Update existing warehouse stock
+                    $product_warehouse->qty = $data['qty'];
+                    $product_warehouse->save();
+                } else {
+                    // Create warehouse stock entry
+                    Product_Warehouse::create([
+                        'product_id' => $lims_product_data->id,
+                        'warehouse_id' => $warehouse->id,
+                        'qty' => $data['qty']
+                    ]);
+                }
+                
+                // Keep products.qty in sync with warehouse stock
+                $lims_product_data->qty = $data['qty'];
+                $lims_product_data->save();
+            }
+        }
+        
         //dealing with product variant
         if(!isset($data['is_batch']))
             $data['is_batch'] = null;
@@ -1165,11 +1192,24 @@ class ProductController extends Controller
             $noOfVariantValue = 0;
             $custom_fields = CustomField::where('belongs_to', 'product')->get();
 
+            // Get warehouse stock for the product (single warehouse)
+            $warehouse_stock = 0;
+            $warehouse_id = null;
+            if ($lims_warehouse_list->count() > 0) {
+                $warehouse_id = $lims_warehouse_list->first()->id;
+                if (!$lims_product_data->is_variant && !$lims_product_data->is_batch) {
+                    $product_warehouse = Product_Warehouse::FindProductWithoutVariant($id, $warehouse_id)->first();
+                    if ($product_warehouse) {
+                        $warehouse_stock = $product_warehouse->qty;
+                    }
+                }
+            }
+
             $general_setting = DB::table('general_settings')->select('modules')->first();
             if(in_array('ecommerce', explode(',',$general_setting->modules))) {
                 $product_arr = explode(',',$lims_product_data->related_products);
                 $related_products = DB::table('products')->whereIn('id',$product_arr)->get();
-                return view('backend.product.edit',compact('related_products','lims_product_list_without_variant', 'lims_product_list_with_variant', 'lims_brand_list', 'lims_category_list', 'lims_unit_list', 'lims_tax_list', 'lims_product_data', 'lims_product_variant_data', 'lims_warehouse_list', 'noOfVariantValue', 'custom_fields'));
+                return view('backend.product.edit',compact('related_products','lims_product_list_without_variant', 'lims_product_list_with_variant', 'lims_brand_list', 'lims_category_list', 'lims_unit_list', 'lims_tax_list', 'lims_product_data', 'lims_product_variant_data', 'lims_warehouse_list', 'noOfVariantValue', 'custom_fields', 'warehouse_stock', 'warehouse_id'));
             }
 
             $general_setting = DB::table('general_settings')->select('modules')->first();
@@ -1183,9 +1223,9 @@ class ProductController extends Controller
                 $extra_arr = explode(',',$lims_product_data->extras);
                 $extras = DB::table('products')->whereIn('id',$extra_arr)->get();
 
-                return view('backend.product.edit',compact('kitchen_list','menu_type_list','related_products','extras','lims_product_list_without_variant', 'lims_product_list_with_variant', 'lims_brand_list', 'lims_category_list', 'lims_unit_list', 'lims_tax_list', 'lims_product_data', 'lims_product_variant_data', 'lims_warehouse_list', 'noOfVariantValue', 'custom_fields'));
+                return view('backend.product.edit',compact('kitchen_list','menu_type_list','related_products','extras','lims_product_list_without_variant', 'lims_product_list_with_variant', 'lims_brand_list', 'lims_category_list', 'lims_unit_list', 'lims_tax_list', 'lims_product_data', 'lims_product_variant_data', 'lims_warehouse_list', 'noOfVariantValue', 'custom_fields', 'warehouse_stock', 'warehouse_id'));
             }
-            return view('backend.product.edit',compact('lims_product_list_without_variant', 'lims_product_list_with_variant', 'lims_brand_list', 'lims_category_list', 'lims_unit_list', 'lims_tax_list', 'lims_product_data', 'lims_product_variant_data', 'lims_warehouse_list', 'noOfVariantValue', 'custom_fields'));
+            return view('backend.product.edit',compact('lims_product_list_without_variant', 'lims_product_list_with_variant', 'lims_brand_list', 'lims_category_list', 'lims_unit_list', 'lims_tax_list', 'lims_product_data', 'lims_product_variant_data', 'lims_warehouse_list', 'noOfVariantValue', 'custom_fields', 'warehouse_stock', 'warehouse_id'));
         }
         else
             return redirect()->back()->with('not_permitted', __('db.Sorry! You are not allowed to access this module'));
@@ -1481,6 +1521,32 @@ class ProductController extends Controller
                 $data['guarantee_type'] = null;
             }
             $lims_product_data->update($data);
+            
+            // Update warehouse stock when qty is changed (only for non-variant, non-batch products)
+            if (isset($data['qty']) && !$lims_product_data->is_variant && !$lims_product_data->is_batch) {
+                $warehouse = Warehouse::where('is_active', true)->first();
+                if ($warehouse) {
+                    $product_warehouse = Product_Warehouse::FindProductWithoutVariant($lims_product_data->id, $warehouse->id)->first();
+                    
+                    if ($product_warehouse) {
+                        // Update existing warehouse stock
+                        $product_warehouse->qty = $data['qty'];
+                        $product_warehouse->save();
+                    } else {
+                        // Create warehouse stock entry if doesn't exist
+                        Product_Warehouse::create([
+                            'product_id' => $lims_product_data->id,
+                            'warehouse_id' => $warehouse->id,
+                            'qty' => $data['qty']
+                        ]);
+                    }
+                    
+                    // Keep products.qty in sync with warehouse stock
+                    $lims_product_data->qty = $data['qty'];
+                    $lims_product_data->save();
+                }
+            }
+            
             //inserting data for custom fields
             $custom_field_data = [];
             $custom_fields = CustomField::where('belongs_to', 'product')->select('name', 'type')->get();
