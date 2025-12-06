@@ -2962,6 +2962,33 @@
                     keyboard.$el.val(keyboard.$preview.val())
                     keyboard.$el.trigger('propertychange')
                 }
+            });
+
+        // Add keyboard for number inputs (especially custom product fields)
+        $('input[type="number"]').keyboard({
+            usePreview: false,
+            layout: 'custom',
+            display: {
+                'accept'  : '&#10004;',
+                'cancel'  : '&#10006;'
+            },
+            customLayout : {
+                'normal' : ['1 2 3', '4 5 6', '7 8 9','0 {dec} {bksp}','{clear} {cancel} {accept}']
+            },
+            restrictInput : true,
+            preventPaste : true,
+            autoAccept : true,
+            css: {
+                container: 'center-block dropdown-menu',
+                buttonDefault: 'btn btn-default',
+                buttonHover: 'btn-primary',
+                buttonAction: 'active',
+                buttonDisabled: 'disabled'
+            },
+            change: function(e, keyboard) {
+                keyboard.$el.val(keyboard.$preview.val());
+                keyboard.$el.trigger('propertychange');
+            }
         });
 
         $('#lims_productcodeSearch').keyboard().autocomplete().addAutocomplete({
