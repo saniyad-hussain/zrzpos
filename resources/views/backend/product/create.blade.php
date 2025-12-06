@@ -54,7 +54,8 @@
                                         <div class="input-group">
                                             <input type="text" name="code" class="form-control" id="code" aria-describedby="code" required>
                                             <div class="input-group-append">
-                                                <button id="genbutton" type="button" class="btn btn-sm btn-default" title="{{__('db.Generate')}}"><i class="fa fa-refresh"></i></button>
+                                                <button type="button" class="btn btn-primary" onclick="barcode()"><svg xmlns="http://www.w3.org/2000/svg"
+                                                width="16" height="16" fill="currentColor" class="bi bi-upc" viewBox="0 0 16 16"><path d="M3 4.5a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0zm2 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0z"></path></svg></button>
                                             </div>
                                         </div>
                                         <span class="validation-msg" id="code-error"></span>
@@ -678,9 +679,16 @@
         </div>
     </div>
     <!-- Tax Create Modal End -->
+    
+    <!-- Barcode Scanner -->
+    <div style="width:100%;max-width:350px;position:fixed;top:5%;left:50%;transform:translateX(-50%);z-index:999">
+        <button type="button" class="btn btn-danger" id="closeScannerBtn" style="display:none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg></button>
+        <div id="reader" style="width:100%;"></div>
+    </div>
 </section>
 @endsection
 @push('scripts')
+<script src="https://unpkg.com/html5-qrcode"></script>
 <script type="text/javascript">
 
     $.ajaxSetup({
@@ -1978,5 +1986,110 @@
             }
         });
     });
+</script>
+<script>
+    let html5Qrcode = null;
+    let closeScannerBtn = null;
+    let scanner = null;
+
+    // Wait for both DOM and library to be ready
+    function initializeBarcodeScanner() {
+        // Check if Html5Qrcode library is loaded
+        if (typeof Html5Qrcode === 'undefined') {
+            console.error('Html5Qrcode library not loaded');
+            return false;
+        }
+
+        // Get DOM elements
+        closeScannerBtn = document.getElementById("closeScannerBtn");
+        scanner = document.getElementById("reader");
+        
+        if (!scanner || !closeScannerBtn) {
+            console.error('Scanner elements not found in DOM');
+            return false;
+        }
+
+        // Initialize scanner
+        try {
+            html5Qrcode = new Html5Qrcode('reader');
+            
+            closeScannerBtn.addEventListener("click", function () {
+                if (html5Qrcode) {
+                    html5Qrcode.stop().then(() => {
+                        closeScannerBtn.style.display = "none";
+                    }).catch((err) => {
+                        console.error("Error stopping scanner:", err);
+                    });
+                }
+            });
+            
+            console.log('Barcode scanner initialized successfully');
+            return true;
+        } catch (error) {
+            console.error('Error initializing scanner:', error);
+            return false;
+        }
+    }
+
+    // Try to initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait a bit for the library script to load
+            setTimeout(initializeBarcodeScanner, 100);
+        });
+    } else {
+        // DOM already loaded, wait for library
+        setTimeout(initializeBarcodeScanner, 100);
+    }
+
+    // Also try when window loads (fallback)
+    window.addEventListener('load', function() {
+        if (!html5Qrcode) {
+            setTimeout(initializeBarcodeScanner, 200);
+        }
+    });
+
+    function barcode() {
+        // Check if html5Qrcode is initialized
+        if (!html5Qrcode) {
+            // Try to initialize one more time
+            if (initializeBarcodeScanner()) {
+                // If initialization succeeded, call the function again
+                setTimeout(barcode, 100);
+                return;
+            }
+            alert('Barcode scanner not initialized. Please refresh the page and ensure camera permissions are granted.');
+            return;
+        }
+
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+            if (decodedText) {
+                document.getElementById('code').value = decodedText;
+                html5Qrcode.stop().then(() => {
+                    if (closeScannerBtn) {
+                        closeScannerBtn.style.display = "none";
+                    }
+                }).catch((err) => {
+                    console.error("Error stopping scanner:", err);
+                });
+            }
+        };
+
+        const config = {
+            fps: 30,
+            qrbox: { width: 300, height: 100 },
+        };
+
+        html5Qrcode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
+            .then(() => {
+                if (closeScannerBtn) {
+                    closeScannerBtn.style.display = "inline-block";
+                }
+            })
+            .catch((err) => {
+                console.error("Error starting scanner:", err);
+                alert("Failed to start camera. Please check camera permissions.");
+            });
+    }
 </script>
 @endpush
