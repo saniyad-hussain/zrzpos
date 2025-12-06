@@ -680,15 +680,34 @@
     </div>
     <!-- Tax Create Modal End -->
     
-    <!-- Barcode Scanner -->
-    <div style="width:100%;max-width:350px;position:fixed;top:5%;left:50%;transform:translateX(-50%);z-index:999">
-        <button type="button" class="btn btn-danger" id="closeScannerBtn" style="display:none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg></button>
-        <div id="reader" style="width:100%;"></div>
+    <!-- Barcode Scanner Modal -->
+    <div class="modal fade" id="barcodeScannerModal" tabindex="-1" role="dialog" aria-labelledby="barcodeScannerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="barcodeScannerModalLabel">Scan Barcode</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="stopBarcodeScanner()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="barcode-scanner-container" style="width: 100%; max-width: 500px; margin: 0 auto;">
+                        <video id="barcode-video" style="width: 100%; height: auto; border: 2px solid #007bff; border-radius: 8px;"></video>
+                    </div>
+                    <div id="barcode-status" class="mt-3">
+                        <p class="text-muted">Point your camera at a barcode</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="stopBarcodeScanner()">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 @endsection
 @push('scripts')
-<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="https://unpkg.com/@zxing/library@latest"></script>
 <script type="text/javascript">
 
     $.ajaxSetup({
@@ -1988,108 +2007,131 @@
     });
 </script>
 <script>
-    let html5Qrcode = null;
-    let closeScannerBtn = null;
-    let scanner = null;
+    let codeReader = null;
+    let isScanning = false;
+    let selectedDeviceId = null;
 
-    // Wait for both DOM and library to be ready
-    function initializeBarcodeScanner() {
-        // Check if Html5Qrcode library is loaded
-        if (typeof Html5Qrcode === 'undefined') {
-            console.error('Html5Qrcode library not loaded');
-            return false;
+    // Initialize ZXing code reader
+    function initBarcodeScanner() {
+        if (!codeReader) {
+            codeReader = new ZXing.BrowserMultiFormatReader();
         }
+        return codeReader;
+    }
 
-        // Get DOM elements
-        closeScannerBtn = document.getElementById("closeScannerBtn");
-        scanner = document.getElementById("reader");
-        
-        if (!scanner || !closeScannerBtn) {
-            console.error('Scanner elements not found in DOM');
-            return false;
-        }
-
-        // Initialize scanner
+    // Get available video devices
+    async function getVideoDevices() {
         try {
-            html5Qrcode = new Html5Qrcode('reader');
-            
-            closeScannerBtn.addEventListener("click", function () {
-                if (html5Qrcode) {
-                    html5Qrcode.stop().then(() => {
-                        closeScannerBtn.style.display = "none";
-                    }).catch((err) => {
-                        console.error("Error stopping scanner:", err);
-                    });
-                }
-            });
-            
-            console.log('Barcode scanner initialized successfully');
-            return true;
-        } catch (error) {
-            console.error('Error initializing scanner:', error);
-            return false;
+            const devices = await codeReader.listVideoInputDevices();
+            return devices;
+        } catch (err) {
+            console.error('Error getting video devices:', err);
+            return [];
         }
     }
 
-    // Try to initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            // Wait a bit for the library script to load
-            setTimeout(initializeBarcodeScanner, 100);
-        });
-    } else {
-        // DOM already loaded, wait for library
-        setTimeout(initializeBarcodeScanner, 100);
-    }
-
-    // Also try when window loads (fallback)
-    window.addEventListener('load', function() {
-        if (!html5Qrcode) {
-            setTimeout(initializeBarcodeScanner, 200);
-        }
-    });
-
-    function barcode() {
-        // Check if html5Qrcode is initialized
-        if (!html5Qrcode) {
-            // Try to initialize one more time
-            if (initializeBarcodeScanner()) {
-                // If initialization succeeded, call the function again
-                setTimeout(barcode, 100);
-                return;
-            }
-            alert('Barcode scanner not initialized. Please refresh the page and ensure camera permissions are granted.');
+    // Start barcode scanning
+    async function barcode() {
+        if (isScanning) {
             return;
         }
 
-        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-            if (decodedText) {
-                document.getElementById('code').value = decodedText;
-                html5Qrcode.stop().then(() => {
-                    if (closeScannerBtn) {
-                        closeScannerBtn.style.display = "none";
-                    }
-                }).catch((err) => {
-                    console.error("Error stopping scanner:", err);
-                });
+        try {
+            // Initialize scanner
+            const reader = initBarcodeScanner();
+            
+            // Show modal
+            $('#barcodeScannerModal').modal('show');
+            
+            // Get video devices
+            const devices = await getVideoDevices();
+            
+            // Use back camera if available, otherwise use first device
+            let deviceId = null;
+            if (devices.length > 0) {
+                // Try to find back camera
+                const backCamera = devices.find(device => 
+                    device.label.toLowerCase().includes('back') || 
+                    device.label.toLowerCase().includes('rear') ||
+                    device.label.toLowerCase().includes('environment')
+                );
+                deviceId = backCamera ? backCamera.deviceId : devices[0].deviceId;
             }
-        };
 
-        const config = {
-            fps: 30,
-            qrbox: { width: 300, height: 100 },
-        };
+            // Update status
+            document.getElementById('barcode-status').innerHTML = 
+                '<p class="text-info"><i class="fa fa-spinner fa-spin"></i> Starting camera...</p>';
 
-        html5Qrcode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
-            .then(() => {
-                if (closeScannerBtn) {
-                    closeScannerBtn.style.display = "inline-block";
+            // Start decoding from video
+            await reader.decodeFromVideoDevice(
+                deviceId,
+                'barcode-video',
+                (result, err) => {
+                    if (result) {
+                        // Barcode scanned successfully
+                        const scannedCode = result.getText();
+                        
+                        // Set the value in the input field
+                        document.getElementById('code').value = scannedCode;
+                        
+                        // Update status with success
+                        document.getElementById('barcode-status').innerHTML = 
+                            '<p class="text-success"><i class="fa fa-check-circle"></i> Barcode scanned: <strong>' + scannedCode + '</strong></p>';
+                        
+                        // Stop scanning and close modal after a short delay
+                        setTimeout(() => {
+                            stopBarcodeScanner();
+                            $('#barcodeScannerModal').modal('hide');
+                        }, 500);
+                    }
+                    
+                    if (err && !(err instanceof ZXing.NotFoundException)) {
+                        // Only log non-NotFound errors (NotFound is normal when scanning)
+                        console.error('Scan error:', err);
+                    }
                 }
-            })
-            .catch((err) => {
-                console.error("Error starting scanner:", err);
-                alert("Failed to start camera. Please check camera permissions.");
-            });
+            );
+
+            isScanning = true;
+            
+            // Update status once camera is ready
+            setTimeout(() => {
+                if (isScanning) {
+                    document.getElementById('barcode-status').innerHTML = 
+                        '<p class="text-info"><i class="fa fa-camera"></i> Point your camera at a barcode</p>';
+                }
+            }, 1000);
+
+        } catch (err) {
+            console.error('Error starting barcode scanner:', err);
+            alert('Failed to start camera. Please check camera permissions and try again.');
+            isScanning = false;
+            $('#barcodeScannerModal').modal('hide');
+        }
     }
+
+    // Stop barcode scanning
+    function stopBarcodeScanner() {
+        if (codeReader && isScanning) {
+            try {
+                codeReader.reset();
+                isScanning = false;
+                document.getElementById('barcode-status').innerHTML = 
+                    '<p class="text-muted">Camera stopped</p>';
+            } catch (err) {
+                console.error('Error stopping scanner:', err);
+            }
+        }
+    }
+
+    // Clean up when modal is closed
+    $('#barcodeScannerModal').on('hidden.bs.modal', function () {
+        stopBarcodeScanner();
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        initBarcodeScanner();
+    });
 </script>
 @endpush
