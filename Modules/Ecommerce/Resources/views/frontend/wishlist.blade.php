@@ -64,7 +64,7 @@
                                                             $product->image = $images[0];
                                                         @endphp
                                                         <a href="{{url('product')}}/{{$product->slug}}/{{$product->id}}" class="view-details ml-2 mr-2">
-                                                            <img style="width:50px;" loading="lazy" class="product-img" data-src="{{ url('images/product/small/') }}/{{ $product->image }}" alt="{{ $product->name }}">
+                                                            <img style="width:50px;" loading="lazy" class="product-img" data-src="{{ url('public/images/product/small/') }}/{{ $product->image }}" alt="{{ $product->name }}">
                                                         </a>
                                                         @else
                                                         <a href="{{url('product')}}/{{$product->slug}}/{{$product->id}}" class="view-details ml-2 mr-2">

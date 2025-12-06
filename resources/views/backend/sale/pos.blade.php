@@ -373,9 +373,9 @@
                             @foreach($lims_category_list as $category)
                             <div class="col-md-3 col-6 category-img text-center" data-category="{{$category->id}}">
                                 @if($category->image)
-                                <img src="{{url('images/category', $category->image)}}" />
+                                <img src="{{url('public/images/category', $category->image)}}" />
                                 @else
-                                <img src="{{url('/images/product/zummXD2dvAtI.png')}}" />
+                                <img src="{{url('/public/images/product/zummXD2dvAtI.png')}}" />
                                 @endif
                                 <p class="text-center">{{$category->name}}</p>
                             </div>
@@ -395,9 +395,9 @@
                             @foreach($lims_brand_list as $brand)
                             <div class="col-md-3 col-6 brand-img text-center" data-brand="{{$brand->id}}">
                                 @if($brand->image)
-                                <img src="{{url('images/brand',$brand->image)}}" />
+                                <img src="{{url('public/images/brand',$brand->image)}}" />
                                 @else
-                                <img src="{{url('/images/product/zummXD2dvAtI.png')}}" />
+                                <img src="{{url('/public/images/product/zummXD2dvAtI.png')}}" />
                                 @endif
                                 <p class="text-center">{{$brand->title}}</p>
                             </div>
@@ -2351,7 +2351,7 @@
                 image = response.data['image'][index];
             else
                 image = 'zummXD2dvAtI.png';
-            tableData += '<div class="product-img sound-btn" title="'+response.data['name'][index]+'" data-code = "'+response.data['code'][index]+'" data-qty="'+response.data['qty'][index]+'" data-imei="'+response.data['is_imei'][index]+'" data-embedded="'+response.data['is_embeded'][index]+'" data-batch="" data-price="'+response.data['price'][index]+'"><img  src="{{url("/images/product")}}/'+image+'" width="100%" /><p>'+response.data['name'][index]+'</p><span>['+response.data['code'][index]+']</span> <span class="d-block">Qty: '+response.data['qty'][index]+'</span></div>';
+            tableData += '<div class="product-img sound-btn" title="'+response.data['name'][index]+'" data-code = "'+response.data['code'][index]+'" data-qty="'+response.data['qty'][index]+'" data-imei="'+response.data['is_imei'][index]+'" data-embedded="'+response.data['is_embeded'][index]+'" data-batch="" data-price="'+response.data['price'][index]+'"><img  src="{{url("/public/images/product")}}/'+image+'" width="100%" /><p>'+response.data['name'][index]+'</p><span>['+response.data['code'][index]+']</span> <span class="d-block">Qty: '+response.data['qty'][index]+'</span></div>';
         });
 
         tableData += '</div>';
@@ -2379,7 +2379,7 @@
                 image = response.data['image'][index];
             else
                 image = 'zummXD2dvAtI.png';
-            tableData += '<div class="product-img sound-btn" title="'+response.data['name'][index]+'" data-code = "'+response.data['code'][index]+'" data-qty="'+response.data['qty'][index]+'" data-imei="'+response.data['is_imei'][index]+'" data-embedded="'+response.data['is_embeded'][index]+'" data-batch="" data-price="'+response.data['price'][index]+'"><img  src="{{url("/images/product")}}/'+image+'" width="100%" /><p>'+response.data['name'][index]+'</p><span>'+response.data['code'][index]+'</span> <span class="d-block">Qty: '+response.data['qty'][index]+'</span></div>';
+            tableData += '<div class="product-img sound-btn" title="'+response.data['name'][index]+'" data-code = "'+response.data['code'][index]+'" data-qty="'+response.data['qty'][index]+'" data-imei="'+response.data['is_imei'][index]+'" data-embedded="'+response.data['is_embeded'][index]+'" data-batch="" data-price="'+response.data['price'][index]+'"><img  src="{{url("/public/images/product")}}/'+image+'" width="100%" /><p>'+response.data['name'][index]+'</p><span>'+response.data['code'][index]+'</span> <span class="d-block">Qty: '+response.data['qty'][index]+'</span></div>';
         });
         $(".table-container .product-grid").append(tableData);
 

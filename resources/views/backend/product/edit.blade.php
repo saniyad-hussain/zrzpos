@@ -459,7 +459,7 @@
                                                 <tr>
                                                     <td><button type="button" class="btn btn-sm"><i class="fa fa-list"></i></button></td>
                                                     <td>
-                                                        <img src="{{url('images/product', $image)}}" height="60" width="60">
+                                                        <img src="{{url('public/images/product', $image)}}" height="60" width="60">
                                                         <input type="hidden" name="prev_img[]" value="{{$image}}">
                                                     </td>
                                                     <td><button type="button" class="btn btn-sm btn-danger remove-img">X</button></td>

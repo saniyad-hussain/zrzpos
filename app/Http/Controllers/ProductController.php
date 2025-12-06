@@ -222,9 +222,9 @@ class ProductController extends Controller
             $product_image = htmlspecialchars($product_image[0]);
             if ($product_image && $product_image != 'zummXD2dvAtI.png') {
                 if (file_exists("public/images/product/small/". $product_image)) {
-                    $nestedData['image'] = '<img src="'.url('images/product/small', $product_image).'" height="50" width="50">';
+                    $nestedData['image'] = '<img src="'.url('public/images/product/small', $product_image).'" height="50" width="50">';
                 } else {
-                    $nestedData['image'] = '<img src="'.url('images/product', $product_image).'" height="50" width="50">';
+                    $nestedData['image'] = '<img src="'.url('public/images/product', $product_image).'" height="50" width="50">';
                 }
             } else {
                 $nestedData['image'] = '<img src="images/zummXD2dvAtI.png" height="50" width="50">';

@@ -16,6 +16,11 @@ RewriteCond %{REQUEST_FILENAME} -d [OR]
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ ^$1 [N]
 
+# Redirect static files (images, css, js) to public folder
+RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|gif|css|js|ico|svg|woff|woff2|ttf|eot)$ [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ public/$1 [L]
+
 RewriteCond %{REQUEST_URI} (\.\w+$) [NC]
 RewriteRule ^(.*)$ public/$1
 

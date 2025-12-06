@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
+use App\Helpers\ImageHelper;
 
 class ProductSaleResource extends JsonResource
 {
@@ -24,14 +25,14 @@ class ProductSaleResource extends JsonResource
             $largeImagePath = public_path("images/product/{$product_image}");
 
             if (file_exists($smallImagePath)) {
-                $imageUrl = url("images/product/small/{$product_image}");
+                $imageUrl = ImageHelper::imageUrl("images/product/small/{$product_image}");
             } elseif (file_exists($largeImagePath)) {
-                $imageUrl = url("images/product/{$product_image}");
+                $imageUrl = ImageHelper::imageUrl("images/product/{$product_image}");
             } else {
-                $imageUrl = url("images/zummXD2dvAtI.png");
+                $imageUrl = ImageHelper::imageUrl("images/zummXD2dvAtI.png");
             }
         } else {
-            $imageUrl = url("images/zummXD2dvAtI.png");
+            $imageUrl = ImageHelper::imageUrl("images/zummXD2dvAtI.png");
         }
         
         // Determine stock worth
