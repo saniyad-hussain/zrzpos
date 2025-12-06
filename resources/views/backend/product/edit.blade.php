@@ -281,9 +281,7 @@
                                         </div>
                                         <span class="validation-msg"></span>
                                     </div>
-                                    <div class="form-group">
-                                        <input type="hidden" name="qty" value="{{ $lims_product_data->qty }}" class="form-control">
-                                    </div>
+                                   
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -291,12 +289,11 @@
                                         <input type="number" name="wholesale_price" class="form-control" value="{{$lims_product_data->wholesale_price}}" step="any">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>{{__('db.Daily Sale Objective')}} </label>
-                                        <input type="number" name="daily_sale_objective" class="form-control" step="any" value="{{$lims_product_data->daily_sale_objective}}">
+                                <div class="form-group">
+                                        <label>{{__('db.Stock Quantity')}} </label>
+                                        <input type="number" name="qty" value="{{ $lims_product_data->qty }}" class="form-control" step="any" min="0">
+                                        <span class="validation-msg"></span>
                                     </div>
-                                </div>
                                 <div id="alert-qty" class="col-md-4">
                                     <div class="form-group">
                                         <label>{{__('db.Alert Quantity')}} </label>

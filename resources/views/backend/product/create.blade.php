@@ -208,8 +208,12 @@
                                         </div>
                                         <span class="validation-msg"></span>
                                     </div>
+                                    </div>
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="hidden" name="qty" value="{{number_format(0, $general_setting->decimal, '.', '')}}">
+                                        <label>{{__('db.Stock Quantity')}} </label>
+                                        <input type="number" name="qty" value="{{number_format(0, $general_setting->decimal, '.', '')}}" class="form-control" step="any" min="0">
+                                        <span class="validation-msg"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
