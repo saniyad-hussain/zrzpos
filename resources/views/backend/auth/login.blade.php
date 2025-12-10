@@ -82,11 +82,11 @@
               </div>
               <button type="submit" class="btn btn-primary btn-block">{{__('db.LogIn')}}</button>
             </form>
-            <a href="{{ route('password.request') }}" class="forgot-pass">{{__('db.Forgot Password?')}}</a>
-            <p class="register-section">
+            <!-- <a href="{{ route('password.request') }}" class="forgot-pass">{{__('db.Forgot Password?')}}</a> -->
+            <!-- <p class="register-section">
               {{__('db.Do not have an account?')}}
               <a href="{{url('register')}}" class="signup register-section">{{__('db.Register')}}</a>
-            </p>
+            </p> -->
           </div>
           <div class="copyrights text-center">
             <p>{{__('db.Developed By')}} <span class="external">{{$general_setting->developed_by}}</span></p>
