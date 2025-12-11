@@ -12,56 +12,56 @@
   <meta name="robots" content="all,follow">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Bootstrap CSS-->
-  <link rel="stylesheet" href="<?php echo asset('public/vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css">
-  <link rel="preload" href="<?php echo asset('public/vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="stylesheet" href="<?php echo asset('vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css">
+  <link rel="preload" href="<?php echo asset('vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('public/vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') ?>" rel="stylesheet">
   </noscript>
-  <link rel="preload" href="<?php echo asset('public/vendor/bootstrap/css/bootstrap-datepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="<?php echo asset('public/vendor/jquery-timepicker/jquery.timepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('vendor/bootstrap/css/bootstrap-datepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('vendor/jquery-timepicker/jquery.timepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('public/vendor/jquery-timepicker/jquery.timepicker.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('vendor/jquery-timepicker/jquery.timepicker.min.css') ?>" rel="stylesheet">
   </noscript>
-  <link rel="preload" href="<?php echo asset('public/vendor/bootstrap/css/awesome-bootstrap-checkbox.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('vendor/bootstrap/css/awesome-bootstrap-checkbox.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('public/vendor/bootstrap/css/awesome-bootstrap-checkbox.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('vendor/bootstrap/css/awesome-bootstrap-checkbox.css') ?>" rel="stylesheet">
   </noscript>
-  <link rel="preload" href="<?php echo asset('public/vendor/bootstrap/css/bootstrap-select.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('vendor/bootstrap/css/bootstrap-select.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('public/vendor/bootstrap/css/bootstrap-select.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('vendor/bootstrap/css/bootstrap-select.min.css') ?>" rel="stylesheet">
   </noscript>
   <!-- Font Awesome CSS-->
-  <link rel="preload" href="<?php echo asset('public/vendor/font-awesome/css/font-awesome.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('vendor/font-awesome/css/font-awesome.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('public/vendor/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('vendor/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet">
   </noscript>
   <!-- Drip icon font-->
-  <link rel="preload" href="<?php echo asset('public/vendor/dripicons/webfont.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('vendor/dripicons/webfont.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('public/vendor/dripicons/webfont.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('vendor/dripicons/webfont.css') ?>" rel="stylesheet">
   </noscript>
 
   <!-- jQuery Circle-->
-  <link rel="preload" href="<?php echo asset('public/css/grasp_mobile_progress_circle-1.0.0.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('css/grasp_mobile_progress_circle-1.0.0.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('public/css/grasp_mobile_progress_circle-1.0.0.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('css/grasp_mobile_progress_circle-1.0.0.min.css') ?>" rel="stylesheet">
   </noscript>
   <!-- Custom Scrollbar-->
-  <link rel="preload" href="<?php echo asset('public/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('public/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') ?>" rel="stylesheet">
   </noscript>
 
   @if(Route::current()->getName() != '/')
   <!-- date range stylesheet-->
-  <link rel="preload" href="<?php echo asset('public/vendor/daterange/css/daterangepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('vendor/daterange/css/daterangepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('public/vendor/daterange/css/daterangepicker.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('vendor/daterange/css/daterangepicker.min.css') ?>" rel="stylesheet">
   </noscript>
   <!-- table sorter stylesheet-->
-  <link rel="preload" href="<?php echo asset('public/vendor/datatable/dataTables.bootstrap4.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('vendor/datatable/dataTables.bootstrap4.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('public/vendor/datatable/dataTables.bootstrap4.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('vendor/datatable/dataTables.bootstrap4.min.css') ?>" rel="stylesheet">
   </noscript>
   <link rel="preload" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
@@ -73,15 +73,15 @@
   </noscript>
   @endif
 
-  <link rel="stylesheet" href="<?php echo asset('public/css/style.default.css') ?>" id="theme-stylesheet" type="text/css">
-  <link rel="stylesheet" href="<?php echo asset('public/css/dropzone.css') ?>">
+  <link rel="stylesheet" href="<?php echo asset('css/style.default.css') ?>" id="theme-stylesheet" type="text/css">
+  <link rel="stylesheet" href="<?php echo asset('css/dropzone.css') ?>">
   <!-- Custom stylesheet - for your changes-->
-  <link rel="stylesheet" href="<?php echo asset('public/css/custom-' . $general_setting->theme) ?>" type="text/css" id="custom-style">
+  <link rel="stylesheet" href="<?php echo asset('css/custom-' . $general_setting->theme) ?>" type="text/css" id="custom-style">
 
   @if( Config::get('app.locale') == 'ar' || $general_setting->is_rtl)
   <!-- RTL css -->
-  <link rel="stylesheet" href="<?php echo asset('public/vendor/bootstrap/css/bootstrap-rtl.min.css') ?>" type="text/css">
-  <link rel="stylesheet" href="<?php echo asset('public/css/custom-rtl.css') ?>" type="text/css" id="custom-style">
+  <link rel="stylesheet" href="<?php echo asset('vendor/bootstrap/css/bootstrap-rtl.min.css') ?>" type="text/css">
+  <link rel="stylesheet" href="<?php echo asset('css/custom-rtl.css') ?>" type="text/css" id="custom-style">
   @endif
   @else
   <link rel="icon" type="image/png" href="{{url('../../logo', $general_setting->site_logo)}}" />
@@ -91,59 +91,59 @@
   <meta name="robots" content="all,follow">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Bootstrap CSS-->
-  <link rel="stylesheet" href="<?php echo asset('../../public/vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css">
-  <link rel="preload" href="<?php echo asset('../../public/vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="stylesheet" href="<?php echo asset('../../vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css">
+  <link rel="preload" href="<?php echo asset('../../vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('../../public/vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('../../vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') ?>" rel="stylesheet">
   </noscript>
-  <link rel="preload" href="<?php echo asset('../../public/vendor/bootstrap/css/bootstrap-datepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('../../vendor/bootstrap/css/bootstrap-datepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('../../public/vendor/bootstrap/css/bootstrap-datepicker.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('../../vendor/bootstrap/css/bootstrap-datepicker.min.css') ?>" rel="stylesheet">
   </noscript>
-  <link rel="preload" href="<?php echo asset('../../public/vendor/jquery-timepicker/jquery.timepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('../../vendor/jquery-timepicker/jquery.timepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('../../public/vendor/jquery-timepicker/jquery.timepicker.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('../../vendor/jquery-timepicker/jquery.timepicker.min.css') ?>" rel="stylesheet">
   </noscript>
-  <link rel="preload" href="<?php echo asset('../../public/vendor/bootstrap/css/awesome-bootstrap-checkbox.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('../../vendor/bootstrap/css/awesome-bootstrap-checkbox.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('../../public/vendor/bootstrap/css/awesome-bootstrap-checkbox.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('../../vendor/bootstrap/css/awesome-bootstrap-checkbox.css') ?>" rel="stylesheet">
   </noscript>
-  <link rel="preload" href="<?php echo asset('../../public/vendor/bootstrap/css/bootstrap-select.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('../../vendor/bootstrap/css/bootstrap-select.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('../../public/vendor/bootstrap/css/bootstrap-select.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('../../vendor/bootstrap/css/bootstrap-select.min.css') ?>" rel="stylesheet">
   </noscript>
   <!-- Font Awesome CSS-->
-  <link rel="preload" href="<?php echo asset('../../public/vendor/font-awesome/css/font-awesome.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('../../vendor/font-awesome/css/font-awesome.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('../../public/vendor/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('../../vendor/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet">
   </noscript>
   <!-- Drip icon font-->
-  <link rel="preload" href="<?php echo asset('../../public/vendor/dripicons/webfont.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('../../vendor/dripicons/webfont.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('../../public/vendor/dripicons/webfont.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('../../vendor/dripicons/webfont.css') ?>" rel="stylesheet">
   </noscript>
 
   <!-- jQuery Circle-->
-  <link rel="preload" href="<?php echo asset('../../public/css/grasp_mobile_progress_circle-1.0.0.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('../../css/grasp_mobile_progress_circle-1.0.0.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('../../public/css/grasp_mobile_progress_circle-1.0.0.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('../../css/grasp_mobile_progress_circle-1.0.0.min.css') ?>" rel="stylesheet">
   </noscript>
   <!-- Custom Scrollbar-->
-  <link rel="preload" href="<?php echo asset('../../public/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('../../vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('../../public/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('../../vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') ?>" rel="stylesheet">
   </noscript>
 
   @if(Route::current()->getName() != '/')
   <!-- date range stylesheet-->
-  <link rel="preload" href="<?php echo asset('../../public/vendor/daterange/css/daterangepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('../../vendor/daterange/css/daterangepicker.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('../../public/vendor/daterange/css/daterangepicker.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('../../vendor/daterange/css/daterangepicker.min.css') ?>" rel="stylesheet">
   </noscript>
   <!-- table sorter stylesheet-->
-  <link rel="preload" href="<?php echo asset('../../public/vendor/datatable/dataTables.bootstrap4.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<?php echo asset('../../vendor/datatable/dataTables.bootstrap4.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="<?php echo asset('../../public/vendor/datatable/dataTables.bootstrap4.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo asset('../../vendor/datatable/dataTables.bootstrap4.min.css') ?>" rel="stylesheet">
   </noscript>
   <link rel="preload" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
@@ -155,15 +155,15 @@
   </noscript>
   @endif
 
-  <link rel="stylesheet" href="<?php echo asset('../../public/css/style.default.css') ?>" id="theme-stylesheet" type="text/css">
-  <link rel="stylesheet" href="<?php echo asset('../../public/css/dropzone.css') ?>">
+  <link rel="stylesheet" href="<?php echo asset('../../css/style.default.css') ?>" id="theme-stylesheet" type="text/css">
+  <link rel="stylesheet" href="<?php echo asset('../../css/dropzone.css') ?>">
   <!-- Custom stylesheet - for your changes-->
-  <link rel="stylesheet" href="<?php echo asset('../../public/css/custom-' . $general_setting->theme) ?>" type="text/css" id="custom-style">
+  <link rel="stylesheet" href="<?php echo asset('../../css/custom-' . $general_setting->theme) ?>" type="text/css" id="custom-style">
 
   @if( Config::get('app.locale') == 'ar' || $general_setting->is_rtl)
   <!-- RTL css -->
-  <link rel="stylesheet" href="<?php echo asset('../../public/vendor/bootstrap/css/bootstrap-rtl.min.css') ?>" type="text/css">
-  <link rel="stylesheet" href="<?php echo asset('../../public/css/custom-rtl.css') ?>" type="text/css" id="custom-style">
+  <link rel="stylesheet" href="<?php echo asset('../../vendor/bootstrap/css/bootstrap-rtl.min.css') ?>" type="text/css">
+  <link rel="stylesheet" href="<?php echo asset('../../css/custom-rtl.css') ?>" type="text/css" id="custom-style">
   @endif
   @endif
   <!-- Google fonts - Inter -->

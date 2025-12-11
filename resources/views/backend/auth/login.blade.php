@@ -16,7 +16,7 @@
     <link rel="preload" href="<?php echo asset('vendor/font-awesome/css/font-awesome.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="<?php echo asset('vendor/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet"></noscript>
     <!-- login stylesheet-->
-    <link rel="stylesheet" href="<?php echo asset('public/css/auth.css') ?>" id="theme-stylesheet" type="text/css">
+    <link rel="stylesheet" href="<?php echo asset('css/auth.css') ?>" id="theme-stylesheet" type="text/css">
     <!-- Google fonts - Roboto -->
     <link rel="preload" href="https://fonts.googleapis.com/css?family=Nunito:400,500,700" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css?family=Nunito:400,500,700" rel="stylesheet"></noscript>
@@ -28,7 +28,7 @@
     <link rel="preload" href="<?php echo asset('../../vendor/font-awesome/css/font-awesome.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="<?php echo asset('../../vendor/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet"></noscript>
     <!-- login stylesheet-->
-    <link rel="stylesheet" href="<?php echo asset('../../public/css/auth.css') ?>" id="theme-stylesheet" type="text/css">
+    <link rel="stylesheet" href="<?php echo asset('../../css/auth.css') ?>" id="theme-stylesheet" type="text/css">
     <!-- Google fonts - Roboto -->
     <link rel="preload" href="https://fonts.googleapis.com/css?family=Nunito:400,500,700" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css?family=Nunito:400,500,700" rel="stylesheet"></noscript>
@@ -82,11 +82,11 @@
               </div>
               <button type="submit" class="btn btn-primary btn-block">{{__('db.LogIn')}}</button>
             </form>
-            <!-- <a href="{{ route('password.request') }}" class="forgot-pass">{{__('db.Forgot Password?')}}</a> -->
-            <!-- <p class="register-section">
+            <a href="{{ route('password.request') }}" class="forgot-pass">{{__('db.Forgot Password?')}}</a>
+            <p class="register-section">
               {{__('db.Do not have an account?')}}
               <a href="{{url('register')}}" class="signup register-section">{{__('db.Register')}}</a>
-            </p> -->
+            </p>
           </div>
           <div class="copyrights text-center">
             <p>{{__('db.Developed By')}} <span class="external">{{$general_setting->developed_by}}</span></p>
