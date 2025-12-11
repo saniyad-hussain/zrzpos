@@ -382,14 +382,14 @@
                   <a href="{{url('my-transactions/'.date('Y').'/'.date('m'))}}"><i class="dripicons-swap"></i> {{ __('db.My Transaction') }}</a>
                 </li>
                 @if(Auth::user()->role_id != 5)
-                <li>
+                <li class="d-none">
                   <a href="{{url('holidays/my-holiday/'.date('Y').'/'.date('m'))}}"><i class="dripicons-vibrate"></i> {{ __('db.My Holiday') }}</a>
                 </li>
                 @endif
                 @if($empty_database_permission_active)
-                <li>
+                <!-- <li class="d-none">
                   <a onclick="return confirm('Are you sure want to delete? If you do this all of your data will be lost.')" href="{{route('setting.emptyDatabase') }}"><i class="dripicons-stack"></i> {{ __('db.Empty Database') }}</a>
-                </li>
+                </li> -->
                 @endif
                 <li>
                   <a href="{{ route('logout') }}" onclick="event.preventDefault();

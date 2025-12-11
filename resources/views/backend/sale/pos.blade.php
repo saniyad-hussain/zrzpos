@@ -887,7 +887,7 @@
                                 <div class="column-5">
                                     <button style="background: #00cec9" type="button" class="btn btn-sm btn-custom payment-btn" data-toggle="modal" data-target="#add-payment" id="cash-btn" disabled="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" /></svg> {{__('db.Cash')}}</button>
                                 </div>
-                                <div class="column-5">
+                                <div class="column-5 d-none">
                                     <button style="background: #2d2d2d" type="button"
                                         class="btn btn-sm btn-custom payment-btn"
                                         data-toggle="modal" data-target="#add-payment"
@@ -900,16 +900,16 @@
                                         Razorpay
                                     </button>
                                 </div>
-                                <div class="column-5">
+                                <div class="column-5 d-none">
                                     <button style="background: #f05969" type="button" class="btn btn-sm btn-custom payment-btn" data-toggle="modal" data-target="#add-payment" id="credit-sale-btn" disabled="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" /></svg> {{__('db.Credit Sale')}}</button>
                                 </div>
                                 @endif
 
-                                <div class="column-5">
+                                <div class="column-5 d-none">
                                     <button style="background: #010429" type="button" class="btn btn-sm btn-custom payment-btn" data-toggle="modal" data-target="#add-payment" id="multiple-payment-btn" disabled="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" /></svg> {{__('db.Multiple Payment')}}</button>
                                 </div>
                                 {{-- @if(in_array("paypal",$options) && $lims_pos_setting_data && (strlen($lims_pos_setting_data->paypal_live_api_username)>0) && (strlen($lims_pos_setting_data->paypal_live_api_password)>0) && (strlen($lims_pos_setting_data->paypal_live_api_secret)>0))
-                                <div class="column-5">
+                                <div class="column-5 d-none">  
                                     <button style="background-color: #213170" type="button" class="btn btn-sm btn-block btn-custom payment-btn" data-toggle="modal" data-target="#add-payment" id="paypal-btn" disabled="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paypal" viewBox="0 0 16 16"><path d="M14.06 3.713c.12-1.071-.093-1.832-.702-2.526C12.628.356 11.312 0 9.626 0H4.734a.7.7 0 0 0-.691.59L2.005 13.509a.42.42 0 0 0 .415.486h2.756l-.202 1.28a.628.628 0 0 0 .62.726H8.14c.429 0 .793-.31.862-.731l.025-.13.48-3.043.03-.164.001-.007a.35.35 0 0 1 .348-.297h.38c1.266 0 2.425-.256 3.345-.91q.57-.403.993-1.005a4.94 4.94 0 0 0 .88-2.195c.242-1.246.13-2.356-.57-3.154a2.7 2.7 0 0 0-.76-.59l-.094-.061ZM6.543 8.82a.7.7 0 0 1 .321-.079H8.3c2.82 0 5.027-1.144 5.672-4.456l.003-.016q.326.186.548.438c.546.623.679 1.535.45 2.71-.272 1.397-.866 2.307-1.663 2.874-.802.57-1.842.815-3.043.815h-.38a.87.87 0 0 0-.863.734l-.03.164-.48 3.043-.024.13-.001.004a.35.35 0 0 1-.348.296H5.595a.106.106 0 0 1-.105-.123l.208-1.32z"/></svg> {{__('db.PayPal')}}</button>
                                 </div>
                                 @endif --}}
@@ -919,17 +919,17 @@
                                 </div> -->
                                 @endif
                                 @if(in_array("gift_card",$options))
-                                <div class="column-5">
+                                <div class="column-5 d-none">
                                     <button style="background-color: #5f27cd" type="button" class="btn btn-sm btn-block btn-custom payment-btn" data-toggle="modal" data-target="#add-payment" id="gift-card-btn" disabled="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" /></svg> {{__('db.Gift Card')}}</button>
                                 </div>
                                 @endif
                                 @if(in_array("deposit",$options))
-                                <div class="column-5">
+                                <div class="column-5 d-none">
                                     <button style="background-color: #b33771" type="button" class="btn btn-sm btn-block btn-custom payment-btn" data-toggle="modal" data-target="#add-payment" id="deposit-btn" disabled="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bank" viewBox="0 0 16 16"><path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z"/></svg> {{__('db.Deposit')}}</button>
                                 </div>
                                 @endif
                                 @if($lims_reward_point_setting_data && $lims_reward_point_setting_data->is_active)
-                                <div class="column-5">
+                                <div class="column-5 d-none">
                                     <button style="background-color: #319398" type="button" class="btn btn-sm btn-block btn-custom payment-btn" data-toggle="modal" data-target="#add-payment" id="point-btn" disabled="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" /></svg> {{__('db.Points')}}</button>
                                 </div>
                                 @endif
@@ -944,7 +944,7 @@
                         $payment_methods = array_values($payment_methods);
                     ?>
                     @if (count($payment_methods))
-                    <div class="column-5">
+                    <div class="column-5 d-none">
                         <div class="btn-group" role="group">
                             <button id="btn-more" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 More
@@ -957,10 +957,10 @@
                         </div>
                     </div>
                     @endif
-                    <div class="column-5">
+                    <div class="column-5 d-none">
                         <button style="background-color: #e28d02" type="button" class="btn btn-sm btn-custom" id="draft-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" /></svg> {{__('db.Draft')}}</button>
                     </div>
-                    <div class="column-5">
+                    <div class="column-5 ">
                         <button style="background-color: #d63031;" type="button" class="btn btn-sm btn-custom" id="cancel-btn" onclick="return confirmCancel()"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg> {{__('db.Cancel')}}</button>
                     </div>
                     <div class="column-5">
@@ -1016,7 +1016,22 @@
                                             </div>
                                             <div class="col-md-3 col-6 mt-1 cash-received-container">
                                                 <label id="received-paying">{{__('db.Cash Received')}} <x-info title="Cash handed over to you. example: sale amount is 300. customer gives you 500. cash received: 500 " type="info" /> *</label>
-                                                <input type="text" name="paying_amount[]" class="form-control paying_amount numkey" required step="any">
+                                                <div class="quick-amount-buttons mb-2" style="display: flex; gap: 5px; flex-wrap: wrap;">
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="5">5</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="10">10</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="20">20</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="50">50</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="100">100</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="150">150</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="200">200</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="250">250</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="300">300</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="350">350</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="400">400</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="450">450</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="500">500</button>
+                                                </div>
+                                                <input type="text" name="paying_amount[]" class="form-control paying_amount numkey" value="0.00" required step="any">
                                             </div>
                                         </div>
                                         <div class="row add-more-row mt-2">
@@ -1025,17 +1040,17 @@
                                         <div id="payment_receiver_id" class="row">
                                             <div class="col-md-12 mt-1">
                                                 <label>{{__('db.Payment Receiver')}}</label>
-                                                <input type="text" name="payment_receiver" class="form-control">
+                                                <input type="text" name="payment_receiver" class="form-control" value="{{ ucfirst(Auth::user()->name) }}">
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label>{{__('db.Payment Note')}}</label>
                                                 <textarea id="payment_note" rows="2" class="form-control" name="payment_note"></textarea>
                                             </div>
-                                            <div class="col-md-6 form-group">
+                                            <div class="col-md-6 form-group d-none">
                                                 <label>{{__('db.Sale Note')}}</label>
                                                 <textarea rows="3" class="form-control" name="sale_note"></textarea>
                                             </div>
-                                            <div class="col-md-6 form-group">
+                                            <div class="col-md-6 form-group d-none">
                                                 <label>{{__('db.Staff Note')}}</label>
                                                 <textarea rows="3" class="form-control" name="staff_note"></textarea>
                                             </div>
@@ -1222,15 +1237,22 @@
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label>{{__('db.Quantity')}} *</label>
-                                            <input type="number" name="custom_product_qty" id="custom_product_qty" class="form-control" step="0.01" min="0.01" value="1" required>
+                                            <input type="number" name="custom_product_qty" id="custom_product_qty" class="form-control numkey" step="any" min="0.01" value="1" required>
                                         </div>
-                                        <div class="col-md-6 form-group">
+                                        <div class="col-md-6 form-group d-none">
                                             <label>{{__('db.Unit')}} *</label>
                                             <input type="text" name="custom_product_unit" id="custom_product_unit" class="form-control" value="pc" required>
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label>{{__('db.Price')}} *</label>
-                                            <input type="number" name="custom_product_price" id="custom_product_price" class="form-control" step="0.01" min="0" required>
+                                            <input type="text"
+                                            name="custom_product_price"
+                                            id="custom_product_price"
+                                            class="form-control numkey"
+                                            inputmode="decimal"
+                                            pattern="^\d*(\.\d*)?$"
+                                            required>
+
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label>{{__('db.Tax')}}</label>
@@ -1343,7 +1365,7 @@
                                             <input type="text" name="customer_name" required class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none">
                                         <div class="form-group">
                                             <label>{{__('db.Email')}}</label>
                                             <input type="text" name="email" placeholder="example@example.com" class="form-control">
@@ -1355,31 +1377,31 @@
                                             <input type="text" name="phone_number" required class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none">
                                         <div class="form-group">
                                             <label>{{__('db.WhatsApp Number')}}</label>
                                             <input type="text" name="wa_number" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none">
                                         <div class="form-group">
                                             <label>{{__('db.Address')}}</label>
                                             <input type="text" name="address" required class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none">
                                         <div class="form-group">
                                             <label>{{__('db.City')}}</label>
                                             <input type="text" name="city" required class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none">
                                         <div class="form-group">
                                             <label>{{__('db.Credit Limit')}} <x-info title="Leave it blank for unlimited credit" type="info" /></label>
                                             <input type="number" name="credit_limit" class="form-control" value="0" step="any" min="0">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none">
                                         <div class="form-group">
                                             <label>{{__('db.Tax Number')}}</label>
                                             <input type="text" name="tax_no" class="form-control">
@@ -3045,7 +3067,14 @@
                             </div>
                             <div class="col-md-3 col-5 mt-2 cash-received-container">
                                 <label>{{__('db.Cash Received')}} <x-info title="Cash handed over to you. example: sale amount is 300. customer gives you 500. cash received: 500 " type="info" /> *</label>
-                                <input type="text" name="paying_amount[]" class="form-control paying_amount numkey" required step="any">
+                                <div class="quick-amount-buttons mb-2" style="display: flex; gap: 5px; flex-wrap: wrap;">
+                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="5">5</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="10">10</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="20">20</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="50">50</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary quick-amount-btn" data-amount="100">100</button>
+                                </div>
+                                <input type="text" name="paying_amount[]" class="form-control paying_amount numkey" value="0.00" required step="any">
                             </div>
                             <div class="col-1 mt-2">
                                 <button class="btn btn-danger remove-row mt-4">X</button>
@@ -3059,7 +3088,8 @@
         });
         var more_to_pay = ($("#grand-total").text() - total_paid_amount).toFixed({{$general_setting->decimal}});
         $('.paid_amount:last').val(more_to_pay);
-        $('.paying_amount:last').val(more_to_pay);
+        // Don't auto-populate paying_amount for cash - let user enter it
+        $('.paying_amount:last').val('0.00');
         $('.selectpicker').selectpicker('refresh');
         if ($('.qc').length) {
             $('.qc').data('initial', 1); // Update the data attribute
@@ -3724,7 +3754,8 @@
     $(".payment-btn").on("click", function() {
         playSound();
         $('.paid_amount').val($("#grand-total").text());
-        $('.paying_amount').val($("#grand-total").text());
+        // Don't auto-populate paying_amount - let user enter cash received manually
+        $('.paying_amount').val('0.00');
         $('.qc').data('initial', 1);
     });
 
@@ -3937,6 +3968,7 @@
             $('select[name="paid_by_id_select[]"]').val(1);
             $('.paying_amount').parent().addClass('col-md-12').removeClass('col-md-3 d-none');
             $('.paying_amount').addClass('cash_paying_amount');
+            $('.quick-amount-buttons').show();
         }
         else if (className == 'razorpay') {
             $('select[name="paid_by_id_select[]"]').val('razorpay');
@@ -4013,19 +4045,21 @@
             $('select[name="paid_by_id_select[]"]').val(3);
             appendElement = `<div class="form-group col-md-12 credit-card remove-element">
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-5 d-none">
                                         <label>Card Number</label>
                                         <input class="form-control" name="card_number" class="card_name">
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-5 d-none">
                                         <label>Card Holder Name</label>
                                         <input class="form-control" name="card_holder_name">
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-5">
                                         <label>Card Type</label>
                                         <select class="form-control" name="card_type">
                                             <option>Visa</option>
                                             <option>Master Card</option>
+                                            <option>American Express</option>
+                                            <option>Discover</option>
                                         </select>
                                     </div>
                                 </div>
@@ -4105,9 +4139,12 @@
         //cash
         if(id == 1){
             $(this).parent().parent().siblings('.cash-received-container').removeClass('d-none');
+            $(this).closest('.row').find('.quick-amount-buttons').show();
+        } else {
+            $(this).closest('.row').find('.quick-amount-buttons').hide();
         }
         //gift
-        else if(id == 2) {
+        if(id == 2) {
             appendElement = `<div class="form-group col-md-10 gift-card remove-element">
                                 <label> {{__('db.Gift Card')}} *</label>
                                 <input type="hidden" name="gift_card_id">
@@ -5102,6 +5139,41 @@
                 alert('Error adding custom product: ' + (xhr.responseJSON?.message || 'Unknown error'));
             }
         });
+    });
+
+    // Quick amount buttons for cash received
+    $(document).on('click', '.quick-amount-btn', function(e) {
+        e.preventDefault();
+        var amount = parseFloat($(this).data('amount')) || 0;
+        var $row = $(this).closest('.row');
+        if ($row.length === 0) {
+            $row = $(this).closest('.cash-received-container').closest('.row');
+        }
+        var $payingInput = $row.find('.paying_amount');
+        
+        if ($payingInput.length) {
+            // Replace the value instead of adding to it
+            $payingInput.val(amount.toFixed({{$general_setting->decimal}}));
+            $payingInput.trigger('keyup'); // Trigger update
+        }
+    });
+
+    // Show quick amount buttons only for cash payment
+    $(document).on('change', 'select[name="paid_by_id_select[]"]', function() {
+        var $row = $(this).closest('.row');
+        var paymentMethod = $(this).val();
+        var $quickButtons = $row.find('.quick-amount-buttons');
+        
+        if (paymentMethod == '1' || paymentMethod == 'cash') {
+            $quickButtons.show();
+        } else {
+            $quickButtons.hide();
+        }
+    });
+    
+    // Check on page load
+    $('select[name="paid_by_id_select[]"]').each(function() {
+        $(this).trigger('change');
     });
 
     $('#expense-amount').on('input', function() {

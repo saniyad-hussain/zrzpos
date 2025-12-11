@@ -154,9 +154,7 @@
                 @if (isset($show->show_ref_number) && $show->show_ref_number == 1)
                     {{ __('db.reference') }}: {{ $lims_sale_data->reference_no }}<br>
                 @endif
-                @if (isset($show->show_customer_name) && $show->show_customer_name == 1)
-                    {{ __('db.customer') }}: {{ $lims_customer_data->name }}
-                @endif
+                {{ __('db.customer') }}: {{ $lims_customer_data->name ?? 'Walk-in Customer' }}
 
                 {{-- biller info --}}
                 @if (isset($show->show_biller_info) && $show->show_biller_info == 1)
@@ -398,7 +396,8 @@
                         </tr>
                     @endif
                     <tr>
-                        @if (isset($show->show_in_word) && $show->show_in_word == 1)
+                        {{-- Removed In Words section --}}
+                        {{-- @if (isset($show->show_in_word) && $show->show_in_word == 1)
                             @if ($general_setting->currency_position == 'prefix')
                                 <th class="centered" colspan="3">{{ __('db.In Words') }}:
                                     <span>{{ $currency_code }}</span>
@@ -410,7 +409,7 @@
                                     <span>{{ $currency_code }}</span>
                                 </th>
                             @endif
-                        @endif
+                        @endif --}}
                     </tr>
                     @foreach ($lims_payment_data as $payment_data)
                         @if (isset($show->show_paid_info) && $show->show_paid_info == 1)

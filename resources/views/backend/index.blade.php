@@ -37,7 +37,7 @@
             @if (!config('database.connections.saleprosaas_landlord') && \Auth::user()->role_id <= 2)
                 @if (isset($versionUpgradeData['alert_version_upgrade_enable']) &&
                         $versionUpgradeData['alert_version_upgrade_enable'] == true)
-                    <div id="alertSection" class="alert not-slide alert-primary alert-dismissible fade show" role="alert">
+                    <div id="alertSection" class="d-none alert not-slide alert-primary alert-dismissible fade show" role="alert">
                         <p id="announce"><strong>Announce !!!</strong> A new version
                             {{ $versionUpgradeData['demo_version'] }} has been released. Please <i><b><a
                                         href="{{ route('new-release') }}">Click here</a></b></i> to check upgrade details.

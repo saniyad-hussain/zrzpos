@@ -119,16 +119,26 @@
                     </div>
                 @endif
 
-                @if (isset($show->show_biller_info) && $show->show_biller_info == 1)
+                {{-- Removed Served By section --}}
+                {{-- @if (isset($show->show_biller_info) && $show->show_biller_info == 1)
                     <div style="display: flex;justify-content: space-between;border-bottom:1px solid #aaa">
                         <span>{{ __('db.Served By') }}:</span> <span>{{ $lims_bill_by['name'] }} -
                             ({{ $lims_bill_by['user_name'] }})</span>
                     </div>
-                @endif
+                @endif --}}
             </td>
         </tr>
     </table>
     <table style="width: 100%;border-collapse: collapse; margin-top: 4px;">
+        <tr>
+            {{-- Always show customer name --}}
+            <td colspan="3" style="padding:4px 0;border-bottom:1px solid #aaa">
+                <div style="display: flex;justify-content: space-between;">
+                    <span>{{ __('db.customer') }}:</span> 
+                    <span>{{ $lims_customer_data->name ?? 'Walk-in Customer' }}</span>
+                </div>
+            </td>
+        </tr>
         <tr>
             @if (isset($show->show_bill_to_info) && $show->show_bill_to_info == 1)
                 <td colspan="3" style="padding:4px 0;width:30%;vertical-align:top">
@@ -141,7 +151,7 @@
                         Bill To
                     </h2>
                     <div style="margin-top: 10px;margin-left: 10px">
-                        <span>{{ __('db.customer') }}: {{ $lims_customer_data->name }}</span>
+                        <span>{{ __('db.customer') }}: {{ $lims_customer_data->name ?? 'Walk-in Customer' }}</span>
                     </div>
                     {{-- <div style="margin-left: 10px">
                         <span>VAT Number:</span>&nbsp;&nbsp;<span>{{$lims_customer_data->tax_no}}</span>
@@ -392,7 +402,8 @@
                 {{ number_format((float) $lims_sale_data->grand_total, $general_setting->decimal, '.', ',') }}</td>
         </tr>
         <tr>
-            @if ($general_setting->currency_position == 'prefix')
+            {{-- Removed In Words section --}}
+            {{-- @if ($general_setting->currency_position == 'prefix')
                 <td class="td-text" colspan="3" rowspan="4"
                     style="border:1px solid #222;padding:1px 3px;background-color:rgb(205, 218, 235);text-align: center;vertical-align: bottom;font-size: 15px; vertical-align: top;">
                     @if (isset($show->show_in_words) && $show->show_in_words == 1)
@@ -408,7 +419,7 @@
                         style="text-transform:capitalize;font-size: 15px;">{{ str_replace('-', ' ', $numberInWords) }}</span>
                     {{ $currency_code }} only
                 </td>
-            @endif
+            @endif --}}
         </tr>
         <tr>
             <td class="td-text" colspan="3"

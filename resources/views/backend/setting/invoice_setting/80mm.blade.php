@@ -160,9 +160,7 @@
                 {{ __('db.reference') }}: {{ $lims_sale_data->reference_no }}<br>
                 @endif
 
-                @if (isset($show->show_customer_name) && $show->show_customer_name == 1)
-                {{ __('db.customer') }}: {{ $lims_customer_data->name }}
-                @endif
+                {{ __('db.customer') }}: {{ $lims_customer_data->name ?? 'Walk-in Customer' }}
 
                 @if ($lims_sale_data->table_id)
                     <br>{{ __('db.Table') }}: {{ $lims_sale_data->table->name }}
@@ -372,7 +370,8 @@
                         </tr>
                     @endif
                     <tr>
-                        @if (isset($show->show_in_words) && $show->show_in_words == 1)
+                        {{-- Removed In Words section --}}
+                        {{-- @if (isset($show->show_in_words) && $show->show_in_words == 1)
                             @if ($general_setting->currency_position == 'prefix')
                                 <th class="centered" colspan="3">{{ __('db.In Words') }}:
                                     <span>{{ $currency_code }}</span>
@@ -384,7 +383,7 @@
                                     <span>{{ $currency_code }}</span>
                                 </th>
                             @endif
-                        @endif
+                        @endif --}}
                     </tr>
                 </tbody>
                 <!-- </tfoot> -->
@@ -407,11 +406,12 @@
                     @endif
                     <tr>
                         <td class="centered" colspan="3">
-                            <small>
+                            {{-- Removed Served By section --}}
+                            {{-- <small>
                                 @if (isset($show->show_biller_info) && $show->show_biller_info == 1)
                                 {{ __('db.Served By') }}: {{ $lims_bill_by['name'] }} - ({{ $lims_bill_by['user_name'] }})
                                 @endif
-                            </small><br>
+                            </small><br> --}}
                             @if (isset($show->show_footer_text) && $show->show_footer_text == 1)
                                 <strong>{{ $invoice_settings->footer_text ?? __('db.Thank you for shopping with us Please come again') }}</strong>
                             @endif

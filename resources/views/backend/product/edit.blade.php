@@ -194,7 +194,7 @@
                                                   <input type="number" name="production_cost" class="form-control" value="{{ $lims_product_data->production_cost ?? 0}}">
                                               </div>
                                         </div> --}}
-                                <div class="col-md-4">
+                                <div class="col-md-4 d-none">
                                     <div class="form-group">
                                         <label>{{__('db.Brand')}} </label>
                                         <div class="input-group">
@@ -235,7 +235,7 @@
                                                   <input type="hidden" name="unit" value="{{ $lims_product_data->unit_id}}">
                                               </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 d-none">
                                                 <label>{{__('db.Sale Unit')}} </label>
                                                 <div class="input-group">
                                                   <select class="form-control selectpicker" name="sale_unit_id" id="sale-unit">
@@ -243,7 +243,7 @@
                                                   <input type="hidden" name="sale_unit" value="{{ $lims_product_data->sale_unit_id}}">
                                               </div>
                                         </div>
-                                        <div class="col-md-4 mt-2">
+                                        <div class="col-md-4 mt-2 d-none">
                                                 <div class="form-group">
                                                     <label>{{__('db.Purchase Unit')}} </label>
                                                     <div class="input-group">
@@ -283,7 +283,7 @@
                                     </div>
                                    
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 d-none">
                                     <div class="form-group">
                                         <label>{{__('db.Wholesale Price')}} </label>
                                         <input type="number" name="wholesale_price" class="form-control" value="{{$lims_product_data->wholesale_price}}" step="any">
@@ -324,7 +324,7 @@
                                 </div>
 
                                 <!-- Warranty and Guarantee [20-01-2025] -->
-                                <div class="col-md-4">
+                                <div class="col-md-4 d-none">
                                     <div class="form-group">
                                         <label>{{ __('db.Warranty') }}</label>
                                         <div class="d-flex justify-content-between">
@@ -338,7 +338,7 @@
                                     </div>
                                 </div>
                                 <!-- <div>{{ $lims_product_data->guarantee_type }}</div> -->
-                                <div class="col-md-4">
+                                <div class="col-md-4 d-none">
                                     <div class="form-group">
                                         <label>{{ __('db.Guarantee') }}</label>
                                         <div class="d-flex justify-content-between">

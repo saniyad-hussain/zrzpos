@@ -120,7 +120,7 @@
                                       </div>
                                     </div>
                                 </div> --}}
-                                <div class="col-md-4">
+                                <div class="col-md-4 d-none">
                                     <div class="form-group">
                                         <label>{{__('db.Brand')}}</strong> </label>
                                         <div class="input-group pos">
@@ -165,14 +165,14 @@
                                               </div>
                                               <span class="validation-msg"></span>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 d-none">
                                                 <label>{{__('db.Sale Unit')}}</strong> </label>
                                                 <div class="input-group">
                                                   <select class="form-control selectpicker" name="sale_unit_id">
                                                   </select>
                                               </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 d-none">
                                                 <div class="form-group">
                                                     <label>{{__('db.Purchase Unit')}}</strong> </label>
                                                     <div class="input-group">
@@ -217,13 +217,13 @@
                                         <span class="validation-msg"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 d-none">
                                     <div class="form-group">
                                         <label>{{__('db.Wholesale Price')}}</strong> </label>
                                         <input type="number" name="wholesale_price" class="form-control" step="any">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 d-none">
                                     <div class="form-group">
                                         <label>{{__('db.Daily Sale Objective')}}</strong></label> <i class="dripicons-question" data-toggle="tooltip" title="{{__('db.Minimum qty which must be sold in a day If not, you will be notified on dashboard But you have to set up the cron job properly for that Follow the documentation in that regard')}}"></i>
                                         <input type="number" name="daily_sale_objective" class="form-control" step="any">
@@ -262,7 +262,7 @@
                                 </div>
 
                                 <!-- Warranty and Guarantee [20-01-2025] -->
-                                <div class="col-md-4">
+                                <div class="col-md-4 d-none">
                                     <div class="form-group">
                                         <label>{{ __('db.Warranty') }}</label>
                                         <div class="d-flex justify-content-between">
@@ -275,7 +275,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 d-none">
                                     <div class="form-group">
                                         <label>{{ __('db.Guarantee') }}</label>
                                         <div class="d-flex justify-content-between">
