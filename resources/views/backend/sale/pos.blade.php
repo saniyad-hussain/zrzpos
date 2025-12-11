@@ -3486,7 +3486,7 @@
 
             $("table.product-sale-list").append(newBody);
         });
-        var htmlfooter = '<p><strong>{{__("db.Sale Note")}}:</strong> '+sale[23]+'</p><p><strong>{{__("db.Staff Note")}}:</strong> '+sale[24]+'</p><strong>{{__("db.Created By")}}:</strong><br>'+sale[25]+'<br>'+sale[26];
+        var htmlfooter = '<p><strong>{{__("db.Sale Note")}}:</strong> '+sale[23]+'</p><p><strong>{{__("db.Staff Note")}}:</strong> '+sale[24]+'</p><strong>{{__("db.Created By")}}:</strong><br>'+sale[25];
         $('#sale-content').html(htmltext);
         $('#sale-footer').html(htmlfooter);
         $('#get-sale-details').modal('show');

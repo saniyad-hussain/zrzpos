@@ -1662,7 +1662,7 @@
 
             $("table.product-sale-list").append(newBody);
         });
-        var htmlfooter = '<p>{{__("db.Sale Note")}}: '+sale[23]+'</p><p>{{__("db.Staff Note")}}: '+sale[24]+'</p>{{__("db.Created By")}}:<br>'+sale[25]+'<br>'+sale[26];
+        var htmlfooter = '<p>{{__("db.Sale Note")}}: '+sale[23]+'</p><p>{{__("db.Staff Note")}}: '+sale[24]+'</p>{{__("db.Created By")}}:<br>'+sale[25];
         $('#sale-content').html(htmltext);
         $('#sale-footer').html(htmlfooter);
         $('#sale-details').modal('show');

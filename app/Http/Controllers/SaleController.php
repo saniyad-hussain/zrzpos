@@ -1099,9 +1099,6 @@ class SaleController extends Controller
                 $this->setMailInfo($mail_setting);
                 try {
                     Mail::to($mail_data['email'])->send(new SaleDetails($mail_data));
-                    /*$log_data['message'] = Auth::user()->name . ' has created a sale. Reference No: ' .$lims_sale_data->reference_no;
-                    $admin_email = 'ashfaqdev.php@gmail.com';
-                    Mail::to($admin_email)->send(new LogMessage($log_data));*/
                 }
                 catch(\Exception $e){
                     $message = ' Sale created successfully. Please setup your <a href="setting/mail_setting">mail setting</a> to send mail.';
