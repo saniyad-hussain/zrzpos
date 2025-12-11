@@ -4839,11 +4839,32 @@
             alert('Product quantity is 0');
             e.preventDefault();
         }
-        else if( parseFloat( $('input[name="paying_amount[]"]').val() ) < parseFloat( $('input[name="paid_amount[]"]').val() ) ){
-            alert('Paying amount cannot be bigger than recieved amount');
-            e.preventDefault();
-        }
         else {
+            // Check paying_amount vs paid_amount only for cash payments (id == 1)
+            var validationFailed = false;
+            
+            $('select[name="paid_by_id_select[]"]').each(function(index) {
+                var paymentMethod = $(this).val();
+                // Only validate for cash payments (id == 1)
+                if (paymentMethod == '1' || paymentMethod == 1) {
+                    var payingAmount = parseFloat($('input[name="paying_amount[]"]').eq(index).val()) || 0;
+                    var paidAmount = parseFloat($('input[name="paid_amount[]"]').eq(index).val()) || 0;
+                    
+                    if (payingAmount < paidAmount) {
+                        alert('Paying amount cannot be bigger than received amount');
+                        validationFailed = true;
+                        return false; // break the loop
+                    }
+                }
+            });
+            
+            if (validationFailed) {
+                e.preventDefault();
+                return false;
+            }
+        }
+        
+        if (!e.isDefaultPrevented()) {
             if ($('input[name="sale_status"]').val() == 1) {
                 $("#submit-btn").prop('disabled', true).html('<span class="spinner-border text-light" role="status"></span>');
             }
