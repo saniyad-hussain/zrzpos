@@ -2225,16 +2225,14 @@
 
         saveDataToLocalStorageForCustomerDisplay('clear_no');
 
-        // Set default tax to first active tax on page load
-        @if($lims_tax_list && $lims_tax_list->count() > 0)
-            var firstTaxRate = {{ $lims_tax_list->first()->rate }};
-            $('select[name="order_tax_rate_select"]').val(firstTaxRate);
-            $('input[name="order_tax_rate"]').val(firstTaxRate);
-            // Calculate tax on page load if there are products
+        // Default order tax to 0 for new sales; keep existing value on edit
+        if (!isEditMode) {
+            $('select[name="order_tax_rate_select"]').val(0);
+            $('input[name="order_tax_rate"]').val(0);
             if ($('table.order-list tbody tr').length > 0) {
                 calculateGrandTotal();
             }
-        @endif
+        }
 
     })
 
@@ -5144,14 +5142,18 @@
 
     $('#custom-product-form').on('submit', function(e) {
         e.preventDefault();
-        
+
+        // Normalize tax fields so "No Tax" sends null and 0 rate
+        var selectedTaxId   = $('#custom_product_tax').val();
+        var selectedTaxRate = parseFloat($('#custom_product_tax option:selected').data('rate')) || 0;
+
         var formData = {
             name: $('#custom_product_name').val(),
             qty: parseFloat($('#custom_product_qty').val()),
             unit: $('#custom_product_unit').val(),
             price: parseFloat($('#custom_product_price').val()),
-            tax_id: $('#custom_product_tax').val() || null,
-            tax_rate: $('#custom_product_tax option:selected').data('rate') || 0,
+            tax_id: (selectedTaxId == '0' || selectedTaxId == 0) ? null : selectedTaxId,
+            tax_rate: selectedTaxRate,
             tax_method: $('#custom_product_tax option:selected').data('method') || 1,
         };
 

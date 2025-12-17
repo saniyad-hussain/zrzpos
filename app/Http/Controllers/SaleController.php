@@ -2172,23 +2172,28 @@ class SaleController extends Controller
             'tax_method'  => 'nullable|in:1,2',
         ]);
 
-        $unitName = $request->input('unit');
-        $taxId = $request->input('tax_id');
-        $taxRate = $request->input('tax_rate', 0);
-        $taxName = 'No Tax';
+        $unitName  = $request->input('unit');
+        $taxId     = $request->input('tax_id');
+        $taxRate   = $request->input('tax_rate', 0);
+        $taxName   = 'No Tax';
         $taxMethod = $request->input('tax_method', 1);
 
-        if ($taxId && $taxId != '0') {
+        // Ensure "No Tax" stays zero regardless of how the client sends it (null, 0, or "0")
+        if ($taxId !== null && $taxId !== '' && $taxId != '0' && $taxId != 0) {
             $tax = Tax::find($taxId);
             if ($tax) {
                 $taxRate = $tax->rate;
                 $taxName = $tax->name;
-                $taxId = $tax->id;
+                $taxId   = $tax->id;
             } else {
-                $taxId = null;
+                $taxId   = null;
+                $taxRate = 0;
+                $taxName = 'No Tax';
             }
         } else {
-            $taxId = null;
+            $taxId   = null;
+            $taxRate = 0;
+            $taxName = 'No Tax';
         }
 
         $unitData = $this->resolveCustomUnit($unitName);
