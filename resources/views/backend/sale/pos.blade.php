@@ -2225,13 +2225,9 @@
 
         saveDataToLocalStorageForCustomerDisplay('clear_no');
 
-        // Default order tax to 0 for new sales; keep existing value on edit
-        if (!isEditMode) {
-            $('select[name="order_tax_rate_select"]').val(0);
-            $('input[name="order_tax_rate"]').val(0);
-            if ($('table.order-list tbody tr').length > 0) {
-                calculateGrandTotal();
-            }
+        // Calculate totals if there are products (using product-level taxes)
+        if ($('table.order-list tbody tr').length > 0) {
+            calculateGrandTotal();
         }
 
     })
@@ -4664,18 +4660,16 @@
         if (tax_method[rowindex] == 1) {
             var net_unit_price = row_product_price - product_discount[rowindex];
             var tax = net_unit_price * quantity * (tax_rate[rowindex] / 100);
-            var sub_total = (net_unit_price * quantity) + tax;
-
-            if(parseFloat(quantity))
-                var sub_total_unit = sub_total / quantity;
-            else
-                var sub_total_unit = sub_total;
+            var sub_total_unit = net_unit_price;
+            // Subtotal WITHOUT tax (tax shown separately in Tax field)
+            var sub_total = net_unit_price * quantity;
         }
         else {
             var sub_total_unit = row_product_price - product_discount[rowindex];
             var net_unit_price = (100 / (100 + tax_rate[rowindex])) * sub_total_unit;
             var tax = (sub_total_unit - net_unit_price) * quantity;
-            var sub_total = sub_total_unit * quantity;
+            // Subtotal WITHOUT tax (tax shown separately in Tax field)
+            var sub_total = net_unit_price * quantity;
         }
 
         var topping_price = ($('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.topping-price').val() * quantity) || 0;
@@ -4685,6 +4679,7 @@
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.net_unit_price').val(net_unit_price.toFixed({{$general_setting->decimal}}));
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.tax-value').val(tax.toFixed({{$general_setting->decimal}}));
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.product-price').text(sub_total_unit.toFixed({{$general_setting->decimal}}));
+        // Display subtotal WITHOUT tax in line item (tax appears separately in Tax field)
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.sub-total').text((sub_total+topping_price).toFixed({{$general_setting->decimal}}));
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.subtotal-value').val((sub_total+topping_price).toFixed({{$general_setting->decimal}}));
 
@@ -4773,7 +4768,10 @@
             shipping_cost = {{number_format(0, $general_setting->decimal, '.', '')}};
 
         item = ++item + '(' + total_qty + ')';
-        order_tax = (subtotal - order_discount) * (order_tax / 100);
+        
+        // Use product-level taxes (already calculated and summed in calculateTotal)
+        // This respects individual product tax rates including "No Tax" (0%) custom products
+        order_tax = parseFloat($('input[name="total_tax"]').val()) || 0;
         var grand_total = (subtotal + order_tax + shipping_cost) - order_discount;
         $('input[name="grand_total"]').val(grand_total.toFixed({{$general_setting->decimal}}));
 
