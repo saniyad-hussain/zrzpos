@@ -715,6 +715,8 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
             Route::post('store', 'store')->name('cashRegister.store');
             Route::get('getDetails/{id}', 'getDetails');
             Route::post('close', 'close')->name('cashRegister.close');
+            // NEW ROUTE - Clear session flag after cash register creation
+            Route::get('clear-flag', 'clearFlag')->name('cashRegister.clearFlag');
         });
     });
 

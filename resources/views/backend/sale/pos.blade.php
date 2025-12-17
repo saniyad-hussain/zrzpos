@@ -1170,7 +1170,7 @@
                                     <select class="form-control" name="order_tax_rate_select" id="order-tax-rate-select">
                                         <option value="0">No Tax</option>
                                         @foreach($lims_tax_list as $tax)
-                                        <option value="{{$tax->rate}}">{{$tax->name}}</option>
+                                        <option value="{{$tax->rate}}" @if($loop->first && $lims_tax_list->count() > 0) selected @endif>{{$tax->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -2224,6 +2224,17 @@
         }
 
         saveDataToLocalStorageForCustomerDisplay('clear_no');
+
+        // Set default tax to first active tax on page load
+        @if($lims_tax_list && $lims_tax_list->count() > 0)
+            var firstTaxRate = {{ $lims_tax_list->first()->rate }};
+            $('select[name="order_tax_rate_select"]').val(firstTaxRate);
+            $('input[name="order_tax_rate"]').val(firstTaxRate);
+            // Calculate tax on page load if there are products
+            if ($('table.order-list tbody tr').length > 0) {
+                calculateGrandTotal();
+            }
+        @endif
 
     })
 
