@@ -4233,7 +4233,9 @@
     });
 
     function change(paying_amount, paid_amount) {
-        $("#change").text( parseFloat(paying_amount - paid_amount).toFixed({{$general_setting->decimal}}));
+        // This function is deprecated - use updateChange() instead which respects payment method
+        // Keeping for backward compatibility but not updating display
+        // $("#change").text( parseFloat(paying_amount - paid_amount).toFixed({{$general_setting->decimal}}));
     }
 
     // Event listener for changes to paid_amount
@@ -4289,15 +4291,24 @@
     // Update the change text for the specific row
     function updateChange() {
         let change = 0;
+        let hasCashPayment = false;
+        
         $('select[name="paid_by_id_select[]"]').each(function() {
-            if ($(this).val() == '1') {
+            if ($(this).val() == '1') { // Cash payment
+                hasCashPayment = true;
                 let $row = $(this).closest('.row');
                 let paying_amount = parseFloat($row.find('.paying_amount').val()) || 0;
                 let paid_amount = parseFloat($row.find('.paid_amount').val()) || 0;
                 change += paying_amount - paid_amount;
             }
         });
-        $('.change').text((change).toFixed({{$general_setting->decimal}}));
+        
+        // Only show positive change for cash payments; otherwise 0
+        if (hasCashPayment && change > 0) {
+            $('.change').text((change).toFixed({{$general_setting->decimal}}));
+        } else {
+            $('.change').text((0).toFixed({{$general_setting->decimal}}));
+        }
 
         saveDataToLocalStorageForCustomerDisplay('clear_no');
     }
